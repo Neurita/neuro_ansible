@@ -1,0 +1,60 @@
+---
+
+- name: eigen3 | Set variables
+  set_fact:
+    eigen3_version: "3.3.4"
+
+- name: eigen3 | Set variables
+  set_fact:
+    tarball_url: "http://bitbucket.org/eigen/eigen/get/3.3.4.tar.gz"
+    tarball_hash: "sha1:c507baf81050b447ed00e972728170938a36d5b0"
+    tarball_path: "{{ soft_dir }}/eigen3/{{ eigen3_version }}.tar.gz"
+    unarchive_dir: "{{ soft_dir }}/eigen3"
+    build_dir: "{{ soft_dir }}/eigen3/build"
+    install_dir: "{{ soft_dir }}/eigen3/eigen-eigen-5a0156e40feb"
+    check_if_exists: "{{ user_local_dir }}/include/eigen3"
+
+- name: eigen3 | Create download directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ unarchive_dir }}"
+    - "{{ build_dir }}"
+
+- name: eigen3 | Download
+  get_url:
+    url: "{{ tarball_url }}"
+    dest: "{{ tarball_path }}"
+    checksum: "{{ tarball_hash }}"
+
+- name: eigen3 | Unpack
+  unarchive:
+    src: "{{ tarball_path }}"
+    dest: "{{ unarchive_dir }}"
+    creates: "{{ install_dir }}/CMakeLists.txt"
+
+- name: eigen3 | Check if is in the system
+  stat:
+    path: "{{ check_if_exists }}"
+  register: eigen3_exists
+
+- name: eigen3 | Run cmake
+  command: "{{ user_local_dir }}/bin/cmake -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }} {{ install_dir }}"
+  args:
+    chdir: "{{ build_dir }}"
+    creates: "{{ build_dir }}/Makefile"
+
+- name: eigen3 | Build
+  command: "make -j {{ n_cpus }}"
+  args:
+    chdir: "{{ build_dir }}"
+  when: eigen3_exists.stat.exists == False
+
+- name: eigen3 | Install
+  command: "make install"
+  args:
+    chdir: "{{ build_dir }}"
+  become: yes
+  become_method: sudo
+  when: eigen3_exists.stat.exists == False

@@ -1,0 +1,8 @@
+---
+
+soft_dir:        "/home/{{ user }}/software"
+tmp_install_dir: "/home/{{ user }}/tmp"
+projects_dir:    "/home/{{ user }}/projects"
+bin_dir:         "/home/{{ user }}/bin"
+user_local_dir:  "/opt"
+local_bin_dir:   "{{ user_local_dir }}/bin"

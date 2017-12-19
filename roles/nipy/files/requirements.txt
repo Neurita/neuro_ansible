@@ -1,0 +1,7 @@
+# TODO: add version lower bounds
+scipy
+nipy
+nibabel
+dipy
+nitime
+nilearn

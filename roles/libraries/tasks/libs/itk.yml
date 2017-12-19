@@ -1,0 +1,24 @@
+---
+
+
+#-------------------------------------------------------------------------------
+# ITK
+#-------------------------------------------------------------------------------
+# WORKDIR $SOFT
+# RUN \
+#     mkdir itk && \
+#     cd itk && \
+#     git clone $ITK_GIT -b $ITK_VERSION && \
+#     mkdir build && \
+#     cd build && \
+    # cmake -DCMAKE_BUILD_TYPE=Release \
+    #       -DPYTHON_EXECUTABLE=/usr/bin/python2.7 \
+    #       -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
+    #       -DPYTHON_INCLUDE_DIR=/usr/include/x86_64-linux-gnu/python2.7m \
+    #       -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7m.so.1 \
+#           ../ITK && \
+#     make -j $N_CPUS && \
+#     make install && \
+#   echo "addpath \$SOFT/itk/build/bin" >> $BASHRC
+
+# RUN ldconfig

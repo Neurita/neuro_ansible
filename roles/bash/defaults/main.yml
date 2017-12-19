@@ -1,0 +1,3 @@
+---
+
+bashrc_file: '{{ home_dir }}/.bashrc'

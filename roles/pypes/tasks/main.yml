@@ -1,0 +1,9 @@
+---
+
+- include_tasks: clone.yml
+  tags: clone_pypes
+
+- name: neuro_pypes | Install requirements
+  pip:
+    requirements: "{{ neuro_pypes_dir }}/requirements.txt"
+    virtualenv: "{{ python_env_dir }}"

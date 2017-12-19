@@ -1,0 +1,55 @@
+---
+
+- name: json | Set variables
+  set_fact:
+    json_version: "2.1.1"
+
+- name: json | Set variables
+  set_fact:
+    git_url:   "https://github.com/nlohmann/json.git"
+    root_dir:  "{{ soft_dir }}/json"
+    git_dir:   "{{ soft_dir }}/json/json"
+    build_dir: "{{ soft_dir }}/json/build"
+    git_tag:   "v{{ json_version }}"
+    check_if_exists: "{{ user_local_dir }}/include/json"
+
+- name: json | Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ root_dir }}"
+    - "{{ build_dir }}"
+
+- name: json | Clone repository
+  git:
+    repo: "{{ git_url }}"
+    accept_hostkey: yes
+    dest: "{{ git_dir }}"
+    recursive: no
+    version: "{{ git_tag }}"
+
+- name: json | Check if is in the system
+  stat:
+    path: "{{ check_if_exists }}"
+  register: lib_exists
+
+- name: json | Run cmake
+  command: "{{ user_local_dir }}/bin/cmake -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }} {{ git_dir }}"
+  args:
+    chdir: "{{ build_dir }}"
+    creates: "{{ build_dir }}/Makefile"
+
+- name: json | Build
+  command: "make -j {{ n_cpus }}"
+  args:
+    chdir: "{{ build_dir }}"
+  when: lib_exists.stat.exists == False
+
+- name: json | Install
+  command: "make install"
+  args:
+    chdir: "{{ build_dir }}"
+  become: yes
+  become_method: sudo
+  when: lib_exists.stat.exists == False

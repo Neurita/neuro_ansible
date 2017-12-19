@@ -1,0 +1,63 @@
+---
+
+- name: googletest | Set variables
+  set_fact:
+    googletest_version: "release-1.8.0"
+
+- name: googletest | Set variables
+  set_fact:
+    git_url: "https://github.com/google/googletest.git"
+    unarchive_dir: "{{ soft_dir }}/googletest/source"
+    build_dir: "{{ soft_dir }}/googletest/build"
+    check_if_exists: "{{ user_local_dir }}/include/gtest"
+
+- name: googletest | Create download directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ unarchive_dir }}"
+    - "{{ build_dir }}"
+
+- name: googletest | Git clone
+  git:
+    repo: '{{ git_url }}'
+    dest: '{{ unarchive_dir }}'
+    version: '{{ googletest_version }}'
+
+- name: googletest | Check if is in the system
+  stat:
+    path: "{{ check_if_exists }}"
+  register: googletest_exists
+
+# It is not recommended to install GoogleTest, include the sources in your CMake project
+# - name: googletest | Run cmake
+#   command: >
+#     {{ user_local_dir }}/bin/cmake
+#     -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}
+#     -Dgtest_build_samples=ON
+#     -Dgtest_build_tests=ON
+#     {{ unarchive_dir }}
+#   args:
+#     chdir: "{{ build_dir }}"
+#     creates: "{{ build_dir }}/Makefile"
+#
+# - name: googletest | Build
+#   command: "make -j {{ n_cpus }}"
+#   args:
+#     chdir: "{{ build_dir }}"
+#   when: googletest_exists.stat.exists == False
+#
+# - name: googletest | Run tests
+#   command: "make test"
+#   args:
+#     chdir: "{{ build_dir }}"
+#   when: googletest_exists.stat.exists == False
+#
+# - name: googletest | Install
+#   command: "make install"
+#   args:
+#     chdir: "{{ build_dir }}"
+#   become: yes
+#   become_method: sudo
+#   when: googletest_exists.stat.exists == False

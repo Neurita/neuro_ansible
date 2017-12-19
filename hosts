@@ -1,0 +1,2 @@
+remote ansible_ssh_host=10.11.10.11 ansible_ssh_user=ubuntu
+production

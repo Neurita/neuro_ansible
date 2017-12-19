@@ -1,0 +1,79 @@
+---
+
+# ENV DCM2NIIX_VERSION v1.0.20171017
+# ENV DCM2NIIX_GIT
+
+# WORKDIR $SOFT
+# RUN \
+#     mkdir dcm2niix && \
+#     cd dcm2niix && \
+#     git clone $DCM2NIIX_GIT -b $DCM2NIIX_VERSION DCM2NIIX && \
+#     mkdir build && \
+#     cd build && \
+#     cmake -DCMAKE_BUILD_TYPE=Release \
+#           ../DCM2NIIX && \
+#     make -j $N_CPUS && \
+#     make install && \
+#     cd ../.. && \
+#     rm -rf dcm2niix
+
+- set_fact:
+    lib_version: "v1.0.20171017"
+    lib_name: 'dcm2niix'
+
+- set_fact:
+    git_url:   "https://github.com/neurolabusc/dcm2niix.git"
+    root_dir:  "{{ soft_dir }}/{{ lib_name }}"
+    git_dir:   "{{ soft_dir }}/{{ lib_name }}/{{ lib_name }}"
+    build_dir: "{{ soft_dir }}/{{ lib_name }}/build"
+    git_tag:   "{{ lib_version }}"
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/build/bin/{{ lib_name }}"
+
+- name: '{{ lib_name }} | Create directories'
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ root_dir }}"
+    - "{{ build_dir }}"
+
+- name: '{{ lib_name }} | Clone repository'
+  git:
+    repo: "{{ git_url }}"
+    accept_hostkey: yes
+    dest: "{{ git_dir }}"
+    recursive: no
+    version: "{{ git_tag }}"
+
+- name: '{{ lib_name }} | Check if is in the system'
+  stat:
+    path: "{{ check_if_exists }}"
+  register: lib_exists
+
+- name: '{{ lib_name }} | Run cmake'
+  command: >
+    {{ user_local_dir }}/bin/cmake
+    -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}
+    {{ git_dir }}
+  args:
+    chdir: "{{ build_dir }}"
+    creates: "{{ build_dir }}/Makefile"
+
+- name: '{{ lib_name }} | Build'
+  command: "make -j {{ n_cpus }}"
+  args:
+    chdir: "{{ build_dir }}"
+  when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Install'
+  command: "make install"
+  args:
+    chdir: "{{ build_dir }}"
+  become: yes
+  become_method: sudo
+  when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Clean sources'
+  command: "rm -rf {{ root_dir }}"
+  when: cleanup_sources

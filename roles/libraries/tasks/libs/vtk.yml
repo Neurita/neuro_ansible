@@ -1,0 +1,93 @@
+---
+
+
+- set_fact:
+    lib_version: "v6.3.0"
+    lib_name: 'vtk'
+
+- set_fact:
+    git_url:   "https://gitlab.kitware.com/vtk/vtk.git"
+    root_dir:  "{{ soft_dir }}/{{ lib_name }}"
+    git_dir:   "{{ soft_dir }}/{{ lib_name }}/{{ lib_name }}"
+    build_dir: "{{ soft_dir }}/{{ lib_name }}/build"
+    git_tag:   "{{ lib_version }}"
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/build/bin"
+
+- set_fact:
+    vtk_build_dir: "{{ build_dir }}"
+
+- name: '{{ lib_name }} | Install vtk6 build dependencies'
+  apt:
+    name: vtk6
+    state: build-dep
+  become: yes
+  become_method: sudo
+
+- name: '{{ lib_name }} | Create directories'
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ root_dir }}"
+    - "{{ build_dir }}"
+
+- name: '{{ lib_name }} | Clone repository'
+  git:
+    repo: "{{ git_url }}"
+    accept_hostkey: yes
+    dest: "{{ git_dir }}"
+    recursive: no
+    version: "{{ git_tag }}"
+
+- name: '{{ lib_name }} | Check if is in the system'
+  stat:
+    path: "{{ check_if_exists }}"
+  register: lib_exists
+
+# - name: '{{ lib_name }} | Run cmake'
+#   command: >
+#     "{{ user_local_dir }}/bin/cmake
+#     -DCMAKE_BUILD_TYPE=Release
+#     -DPYTHON_EXECUTABLE=/usr/bin/python2.7 \
+#     -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
+#     -DPYTHON_INCLUDE_DIR=/usr/include/x86_64-linux-gnu/python2.7m \
+#     -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7m.so.1 \
+#     -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}
+#     {{ git_dir }}"
+#   args:
+#     chdir: "{{ build_dir }}"
+#     creates: "{{ build_dir }}/Makefile"
+
+- name: '{{ lib_name }} | Run cmake'
+  command: >
+    {{ user_local_dir }}/bin/cmake
+    -DCMAKE_BUILD_TYPE=Release
+    -DPYTHON_EXECUTABLE=/usr/bin/python3.5 \
+    -DPYTHON_INCLUDE_DIR=/usr/include/python3.5 \
+    -DPYTHON_INCLUDE_DIR=/usr/include/x86_64-linux-gnu/python3.5m \
+    -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1 \
+    -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}
+    {{ git_dir }}
+  args:
+    chdir: "{{ build_dir }}"
+    creates: "{{ build_dir }}/Makefile"
+  when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Build'
+  command: "make -j {{ n_cpus }}"
+  args:
+    chdir: "{{ build_dir }}"
+  when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Install'
+  command: "make install"
+  args:
+    chdir: "{{ build_dir }}"
+  become: yes
+  become_method: sudo
+  when: lib_exists.stat.exists == False
+
+# dependencies will come, don't
+# - name: '{{ lib_name }} | Clean sources'
+#   command: "rm -rf {{ root_dir }}"
+#   when: '{{ cleanup_sources }}'

@@ -1,0 +1,121 @@
+---
+
+# - name: libraries | Make local downloads dir in {{ local_downloads_dir }}
+#   local_action: path dest="{{ local_downloads_dir }}" state=directory
+
+- apt_repository:
+    repo: deb-src http://archive.ubuntu.com/ubuntu xenial main restricted
+    state: present
+  become: yes
+  become_method: sudo
+
+- apt_repository:
+    repo: deb http://archive.canonical.com/ubuntu xenial partner
+    state: present
+  become: yes
+  become_method: sudo
+
+- apt_repository:
+    repo: deb http://archive.canonical.com/ubuntu xenial universe
+    state: present
+  become: yes
+  become_method: sudo
+
+- name: libraries | Update cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+  become_method: sudo
+
+- name: libraries | Install packages
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    allow_unauthenticated: yes
+  with_items:
+    - apt-utils
+    - locales
+    - cmake
+    - gcc-4.9
+    - g++-4.9
+    - gfortran-4.9
+    - gcc-5
+    - g++-5
+    - gfortran-5
+    - libjpeg62
+    - libxml2-dev
+    - libxslt1-dev
+    - xdot
+    - python3-dev
+  become: yes
+  become_method: sudo
+
+- name: libraries | Add {{ local_bin_dir }} to PATH
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='^PATH=(["]*)((?!.*?{{ local_bin_dir }}).*?)(["]*)$'
+    line="PATH=\1\2:{{ local_bin_dir }}\3"
+  become: yes
+  become_method: sudo
+  tags: ld_config
+
+- name: libraries | Add {{ user_local_dir }} to CMAKE_PREFIX_PATH
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    regexp="^CMAKE_PREFIX_PATH=.*"
+    line='CMAKE_PREFIX_PATH="{{ user_local_dir }}"'
+  become: yes
+  become_method: sudo
+  tags: ld_config
+
+- include_tasks: libs/neurodebian.yml
+  tags: neurodebian
+
+- include_tasks: libs/afni.yml
+  tags: afni
+
+- include_tasks: libs/camino.yml
+  tags: camino
+
+- include_tasks: libs/spm_mcr.yml
+  tags: spm_mcr
+
+- include_tasks: libs/cmake.yml
+  tags: cmake
+
+- include_tasks: libs/dcm2niix.yml
+  tags: dcm2niix
+
+- block:
+  - include_tasks: libs/vtk.yml
+    tags: vtk
+
+  - include_tasks: libs/ants.yml
+    tags: ants
+
+  - include_tasks: libs/petpvc.yml
+    tags: petpvc
+
+# - include_tasks: libs/simpleitk.yml
+#   tags: simpleitk
+
+  tags: itk
+
+# - include_tasks: libs/boost.yml
+#   tags: boost
+#
+# - include_tasks: libs/eigen3.yml
+#   tags: eigen3
+#
+# - include_tasks: libs/json.yml
+#   tags: json
+#
+# - include_tasks: libs/qt5_download.yml
+#   tags: qt5
+
+# - include_tasks: libs/googletest.yml
+#   tags: googletest

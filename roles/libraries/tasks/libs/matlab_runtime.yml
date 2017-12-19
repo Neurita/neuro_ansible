@@ -1,0 +1,63 @@
+---
+
+- set_fact:
+    lib_name: 'matlab_runtime'
+    pkg_url: "http://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip"
+    lib_version: "v93"
+
+- set_fact:
+    unarchive_dir: "{{ soft_dir }}/{{ lib_name }}/matlab_installer"
+    pkg_path: "{{ soft_dir }}/{{ lib_name }}/matlab_installer/installer.zip"
+    install_dir: "{{ soft_dir }}/{{ lib_name }}"
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/bin"
+
+- name: '{{ lib_name }} | Create download directory'
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ soft_dir }}/{{ lib_name }}"
+    - "{{ unarchive_dir }}"
+
+- name: '{{ lib_name }} | Download package'
+  get_url:
+    url: "{{ pkg_url }}"
+    dest: "{{ pkg_path }}"
+
+- name: '{{ lib_name }} | Prepare installer config'
+  blockinfile:
+    path: "{{ unarchive_dir }}/mcr_options.txt"
+    mode: 0600
+    owner: '{{ user }}'
+    group: '{{ group }}'
+    create: yes
+    block: |
+      destinationFolder={{ install_dir }}
+      agreeToLicense=yes
+      outputFile=/tmp/matlabinstall_log
+      mode=silent
+
+- name: '{{ lib_name }} | Unzip package'
+  command: unzip {{ pkg_path }} -d {{ unarchive_dir }}
+
+- name: '{{ lib_name }} | Run installer'
+  command: >
+    {{ unarchive_dir }}/install
+    -inputFile {{ unarchive_dir }}/mcr_options.txt
+
+- name: '{{ lib_name }} | Cleanup installer'
+  command: "rm -rf {{ unarchive_dir }}"
+
+- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
+  lineinfile:
+    dest: "{{ bashrc_file }}"
+    regexp: '^export MCR_DIR=.*'
+    line: 'export MCR_DIR=${SOFT}/{{ lib_name }}/{{ lib_version }}'
+    backrefs: yes
+
+- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
+  lineinfile:
+    dest: "{{ bashrc_file }}"
+    regexp: '^addpath ${MCR_DIR}/bin$'
+    line: 'addpath ${MCR_DIR}/bin'
+    backrefs: yes

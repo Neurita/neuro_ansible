@@ -1,0 +1,80 @@
+---
+
+- name: Set locale
+  locale_gen:
+    name: '{{ locale }}'
+    state: present
+  # command: locale-gen en_GB.UTF-8 && update-locale en_GB.UTF-8
+
+- name: common | Create directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ group }}'
+  with_items:
+    - '{{ soft_dir }}'
+    - '{{ user_local_dir }}'
+    - '{{ tmp_install_dir }}'
+    - '{{ projects_dir }}'
+  become: yes
+  become_method: sudo
+
+- lineinfile:
+    path: '{{ bashrc_file }}'
+    regexp: '^export SOFT='
+    line: 'export SOFT="{{ soft_dir }}"'
+
+# - name: fish | Add 'ppa:fish-shell/release-2' repository
+#   apt_repository:
+#     repo: 'ppa:fish-shell/release-2'
+#     state: present
+
+- name: APT | Update cache, be patient
+  apt:
+    update_cache: yes
+    upgrade: yes
+    cache_valid_time: 3600
+    allow_unauthenticated: yes
+
+- name: Package | Install lists packages
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - build-essential
+    - mesa-common-dev
+    - libglu1-mesa-dev
+    - bash-completion
+    - openssh-server
+    - apt-utils
+    - rsync
+    - vim
+    - git
+    - git-core
+    - git-extras
+    - curl
+    - wget
+    - htop
+    - ack-grep
+    - ccze
+    - tmux
+    - tig
+    - unzip
+    - tar
+    - gzip
+    - bzip2
+    - pwgen
+    - ranger
+
+  # - name: fish | Let's use Fish Shell
+  #   user:
+  #     name: "{{ ansible_user }}"
+  #     shell: /usr/bin/fish
+  #   become: yes
+  #   become_method: sudo
+  #
+  # - name: fish | Set full path in the fish command prompt
+  #   command: >
+  #     exec fish
+  #     set -U fish_prompt_pwd_dir_length 0

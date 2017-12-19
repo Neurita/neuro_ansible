@@ -1,0 +1,92 @@
+---
+
+- set_fact:
+    qt5_version: "5.9.1"
+    qt5_version_packaging: "{{ qt5_version | replace('.', '') }}"
+    qt5_major_version: "5.9"
+    qt5_classifier: "linux-x64"
+    qt5_installer_options: "{{ '--platform minimal' if is_jenkins else '' }}"
+
+- set_fact:
+    tarball_url: "http://download.qt.io/official_releases/qt/{{ qt5_major_version }}/{{ qt5_version }}/qt-opensource-{{ qt5_classifier }}-{{ qt5_version }}.run"
+    tarball_hash: "sha1:f88b57eb2ba584f67d25fb07b5415b7e2f65a5f8"
+    download_dir: "{{ soft_dir }}/qt5"
+    tarball_path: "{{ soft_dir }}/qt5/qt-opensource-{{ qt5_classifier }}-{{ qt5_version }}.run"
+    install_dir: "{{ user_local_dir }}/Qt{{ qt5_version }}"
+    qt_bin_dir: "{{ user_local_dir }}/Qt{{ qt5_version }}/{{ qt5_version }}/gcc_64/bin"
+    qt_lib_dir: "{{ user_local_dir }}/Qt{{ qt5_version }}/{{ qt5_version }}/gcc_64/lib"
+    lib_conf_file: /etc/ld.so.conf.d/qt5.conf
+  tags: ld_config
+
+- name: Qt5 | Create download directory
+  file:
+    path: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ download_dir }}'
+
+- name: Qt5 | Download the Offline Qt5 Installer (~1GB)
+  get_url:
+    url: "{{ tarball_url }}"
+    dest: "{{ tarball_path }}"
+    checksum: "{{ tarball_hash }}"
+    mode: 0755
+
+- name: Qt5 | Add execution permission to the Installer
+  file:
+    path: "{{ tarball_path }}"
+    mode: 0755
+
+- name: Qt5 | Add {{ qt_bin_dir }} to PATH
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='^PATH=(["]*)((?!.*?{{ qt_bin_dir }}).*?)(["]*)$'
+    line="PATH=\1\2:{{ qt_bin_dir }}\3"
+  become: yes
+  become_method: sudo
+  tags: ld_config
+
+- name: Qt5 | Add {{ install_dir }} to CMAKE_PREFIX_PATH
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='^CMAKE_PREFIX_PATH=(["]*)((?!.*?{{ install_dir }}).*?)(["]*)$'
+    line="CMAKE_PREFIX_PATH=\1\2:{{ install_dir }}\3"
+  become: yes
+  become_method: sudo
+  tags: ld_config
+
+- name: Qt5 | Create /etc/ld.so.conf.d/qt5.conf
+  file:
+    path: /etc/ld.so.conf.d/qt5.conf
+    state: touch
+    mode: "u=rw,g=r,o=r"
+  become: yes
+  become_method: sudo
+  tags: ld_config
+
+- name: Qt5 | Add {{ qt_lib_dir }} to the /etc/ld.so.conf.d/qt5.conf
+  lineinfile: >
+    dest=/etc/ld.so.conf.d/qt5.conf
+    state=present
+    create=yes
+    line="{{ qt_lib_dir }}"
+  become: yes
+  become_method: sudo
+  tags: ld_config
+
+- name: Qt5 | Copy the installation script
+  template:
+    src: qt-installer-noninteractive.qs.j2
+    dest: '{{ download_dir }}/qt-installer-noninteractive.qs'
+
+- name: Qt5 | Run the installer
+  command: '{{ tarball_path }} --script {{ download_dir }}/qt-installer-noninteractive.qs'
+  args:
+    chdir: '{{ download_dir }}'
+    creates: '{{ install_dir }}'
+  become: yes
+  become_method: sudo

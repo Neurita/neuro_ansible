@@ -1,0 +1,22 @@
+---
+
+- name: Java Oracle | Add repository
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+    state: present
+    update_cache: yes
+
+- name: Java Oracle | Automatically select the Oracle License
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+
+- name: Java Oracle | Install version 1.8.x
+  apt:
+    name: oracle-java8-installer
+    state: installed
+    force: yes
+
+- name: Java Oracle | Setup JAVA_HOME environment variable
+  lineinfile:
+    path: "/etc/environment"
+    regexp: '^JAVA_HOME='
+    line: 'JAVA_HOME="/usr/lib/jvm/java-8-oracle"'

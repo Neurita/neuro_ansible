@@ -1,0 +1,18 @@
+---
+
+- block:
+  - set_fact:
+      env_python: neuro
+
+  - include_tasks: python_env
+  when: python_env is not defined
+
+- name: nipy | Copy requirements file
+  copy:
+    src: requirements.txt
+    dest: "{{ tmp_install_dir }}/neuro_requirements.txt"
+
+- name: nipy | Install requirements
+  pip:
+    requirements: "{{ tmp_install_dir }}/neuro_requirements.txt"
+    virtualenv: "{{ python_env_dir }}"

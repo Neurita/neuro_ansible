@@ -1,0 +1,73 @@
+---
+
+- name: neurodebian | Download the NeuroDebian repository sources list file
+  get_url:
+    url: http://neuro.debian.net/lists/xenial.de-m.full
+    dest: '{{ home_dir }}/neurodebian.sources.list'
+    mode: 0440
+
+- name: neurodebian | Add the NeuroDebian repository sources to APT
+  block:
+  - slurp:
+      src: '{{ home_dir }}/neurodebian.sources.list'
+    register: repos
+
+  - apt_repository:
+      repo: '{{ item }}'
+      state: present
+      filename: neurodebian
+    vars:
+      repo_sources: "{{ repos['content'] | b64decode }}"
+    with_items:
+      - "{{ repo_sources.split('\n') }}"
+    when:
+      - item != '' and not item.startswith('#')
+    become: yes
+    become_method: sudo
+
+# - name: neurodebian | Add APT signing key
+#   apt_key:
+#     id: "0xA5D32F012649A5A9"
+#     keyserver: "hkp://pool.sks-keyservers.net:80"
+#     state: "present"
+#   become: yes
+#   become_method: sudo
+
+- name: neurodebian | Copy APT PGP key file
+  copy:
+    src: NeuroDebian.Archive.Key.Public.asc
+    dest: "{{ home_dir }}"
+
+- name: neurodebian | Add APT signing key
+  apt_key:
+    id: "0xA5D32F012649A5A9"
+    file: "{{ home_dir }}/NeuroDebian.Archive.Key.Public.asc"
+    state: "present"
+  become: yes
+  become_method: sudo
+
+- name: neurodebian | Remove APT PGP key file
+  file:
+    path: "{{ home_dir }}/NeuroDebian.Archive.Key.Public.asc"
+    state: absent
+
+- name: libraries | Update cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+  become_method: sudo
+
+- name: libraries | Install packages
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    allow_unauthenticated: yes
+  with_items:
+    - dicomnifti
+    - dcm2niix
+    - bison
+    - fsl-5.0-eddy-nonfree
+    - fsl-5.0-core
+  become: yes
+  become_method: sudo

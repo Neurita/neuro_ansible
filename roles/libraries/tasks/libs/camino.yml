@@ -1,0 +1,51 @@
+---
+
+#ENV CAMINO_GIT git://git.code.sf.net/p/camino/code
+#
+# WORKDIR $SOFT
+# RUN \
+#     git clone $CAMINO_GIT camino && \
+#     echo "addpath \${SOFT}/camino/bin" >> $BASHRC
+
+- set_fact:
+    lib_version: "master"
+    lib_name: 'camino'
+
+- set_fact:
+    git_url:  "git://git.code.sf.net/p/camino/code"
+    root_dir: "{{ soft_dir }}/{{ lib_name }}"
+    git_dir:  "{{ soft_dir }}/{{ lib_name }}"
+    git_tag: 'master'
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/bin"
+
+- name: '{{ lib_name }} | Create directories'
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ root_dir }}"
+
+- name: '{{ lib_name }} | Clone repository'
+  git:
+    repo: "{{ git_url }}"
+    accept_hostkey: yes
+    dest: "{{ git_dir }}"
+    recursive: yes
+    version: "{{ git_tag }}"
+
+- name: '{{ lib_name }} | Check if is in the system'
+  stat:
+    path: "{{ check_if_exists }}"
+  register: lib_exists
+
+- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
+  lineinfile:
+    dest: "{{ bashrc_file }}"
+    regexp: '^export CAMINO_PATH=.*$'
+    line: 'export CAMINO_PATH=${SOFT}/{{ lib_name }}/bin'
+
+- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
+  lineinfile:
+    dest: "{{ bashrc_file }}"
+    regexp: '^addpath ${CAMINO_PATH}$'
+    line: 'addpath ${CAMINO_PATH}'

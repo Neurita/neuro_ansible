@@ -1,0 +1,15 @@
+---
+
+# TODO?: Use the Qt5 packages from APT
+- name: development | Install lists packages
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - libqwt-qt5-dev
+    - libqt5widgets5
+    - libqt5gui5
+    - libqt5core5a
+    
+  become: yes
+  become_method: sudo

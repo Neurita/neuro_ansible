@@ -1,0 +1,78 @@
+---
+
+- set_fact:
+    lib_version: "v1.2.1"
+    lib_name: 'petpvc'
+
+- set_fact:
+    git_url:   "https://github.com/UCL/PETPVC.git"
+    root_dir:  "{{ soft_dir }}/{{ lib_name }}"
+    git_dir:   "{{ soft_dir }}/{{ lib_name }}/{{ lib_name }}"
+    build_dir: "{{ soft_dir }}/{{ lib_name }}/build"
+    git_tag:   "{{ lib_version }}"
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/build/bin"
+
+- name: '{{ lib_name }} | Create directories'
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ root_dir }}"
+    - "{{ build_dir }}"
+
+- name: '{{ lib_name }} | Clone repository'
+  git:
+    repo: "{{ git_url }}"
+    accept_hostkey: yes
+    dest: "{{ git_dir }}"
+    recursive: yes
+    version: "{{ git_tag }}"
+
+- name: '{{ lib_name }} | Check if is in the system'
+  stat:
+    path: "{{ check_if_exists }}"
+  register: lib_exists
+
+- name: '{{ lib_name }} | Run cmake'
+  command: >
+    {{ user_local_dir }}/bin/cmake
+    -DCMAKE_BUILD_TYPE=Release
+    -DITK_DIR={{ ants_build_dir }}/ITKv4-build
+    -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}
+    {{ git_dir }}
+  args:
+    chdir: "{{ build_dir }}"
+    creates: "{{ build_dir }}/Makefile"
+  when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Build'
+  command: "make"
+  args:
+    chdir: "{{ build_dir }}"
+  when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
+  lineinfile:
+    dest: "{{ bashrc_file }}"
+    regexp: '^export PETPVCPATH=.*'
+    line: 'export PETPVCPATH=${SOFT}/{{ lib_name }}/build/bin'
+    backrefs: yes
+
+- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
+  lineinfile:
+    dest: "{{ bashrc_file }}"
+    regexp: '^addpath ${PETPVCPATH}$'
+    line: 'addpath ${PETPVCPATH}'
+    backrefs: yes
+
+# - name: '{{ lib_name }} | Install'
+#   command: "make install"
+#   args:
+#     chdir: "{{ build_dir }}"
+#   become: yes
+#   become_method: sudo
+#   when: lib_exists.stat.exists == False
+#
+# - name: '{{ lib_name }} | Clean sources'
+#   command: "rm -rf {{ root_dir }}"
+#   when: '{{ cleanup_sources }}'

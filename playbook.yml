@@ -1,0 +1,16 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: remote
+  gather_facts: yes
+  environment:
+    - LC_ALL: '{{ locale }}'
+    - LANG: '{{ locale }}'
+  roles:
+    - { role: bash, tags: bash }
+    - { role: common, become: yes, become_method: sudo, tags: common }
+    - { role: java, become: yes, become_method: sudo, tags: common }
+    - { role: python_env, tags: python }
+    - { role: nipy, tags: nipy }
+    - { role: pypes, tags: pypes }
+    - { role: libraries, tags: libs }

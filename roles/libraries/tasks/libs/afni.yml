@@ -1,0 +1,105 @@
+---
+# ENV AFNI_URL https://afni.nimh.nih.gov/pub/dist/bin/linux_fedora_21_64/@update.afni.binaries
+#
+# #-------------------------------------------------------------------------------
+# # AFNI
+# # https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/install_instructs/steps_linux_ubuntu.html#install-steps-linux-ubuntu
+# #-------------------------------------------------------------------------------
+# WORKDIR $SOFT
+# RUN \
+#     curl -O $AFNI_URL && \
+#     chsh -s /usr/bin/tcsh && \
+#     tcsh @update.afni.binaries -package linux_openmp_64 -do_extras && \
+#     chsh -s /bin/bash && \
+#     cp $HOME/abin/AFNI.afnirc $HOME/.afnirc && \
+#     echo "addpath \$HOME/abin" >> $BASHRC && \
+#     chown -R $BASICUSER $HOME/abin
+
+- include_tasks: libxp.yml
+  tags: libxp
+
+- set_fact:
+    lib_name: 'afni'
+    pkg_url: "https://afni.nimh.nih.gov/pub/dist/tgz/linux_ubuntu_16_64.tgz"
+    updt_url: "https://afni.nimh.nih.gov/pub/dist/bin/linux_ubuntu_16_64/@update.afni.binaries"
+
+- set_fact:
+    unarchive_dir: "{{ soft_dir }}/{{ lib_name }}"
+
+- name: '{{ lib_name }} | Set variables'
+  set_fact:
+    pkg_path: "{{ unarchive_dir }}/{{ pkg_url | basename }}"
+    updt_path: "{{ unarchive_dir }}/{{ updt_url | basename }}"
+    install_dir: "{{ soft_dir }}/{{ lib_name }}/bin"
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/bin"
+
+- name: '{{ lib_name }} | Install packages 1/2'
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+  - tcsh
+  - xfonts-base
+  - python-qt4
+  - gsl-bin
+  - netpbm
+  - libjpeg62
+  - xvfb
+  - xterm
+  - vim
+  - curl
+  become: yes
+  become_method: sudo
+
+- name: '{{ lib_name }} | Install packages 2/2'
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - libglu1-mesa-dev
+    - libglw1-mesa
+    - libxm4
+    - build-essential
+  become: yes
+  become_method: sudo
+
+- name: '{{ lib_name }} | Create download directory'
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ unarchive_dir }}"
+    - "{{ install_dir }}"
+
+- name: '{{ lib_name }} | Download binary package'
+  get_url:
+    url: "{{ pkg_url }}"
+    dest: "{{ pkg_path }}"
+  register: pack_downloaded
+
+- name: '{{ lib_name }} | Download update script'
+  get_url:
+    url: "{{ updt_url }}"
+    dest: "{{ updt_path }}"
+
+- name: '{{ lib_name }} | Run installer in tcsh'
+  shell: tcsh {{ updt_path }} -local_package {{ pkg_path }} -do_extras
+  args:
+    executable: /usr/bin/tcsh
+  when: pack_downloaded.changed
+
+- name: '{{ lib_name }} | Copy .afnirc to {{ home_dir }}'
+  command: >
+    cp {{ home_dir }}/abin/AFNI.afnirc {{ home_dir }}/.afnirc
+
+- name: '{{ lib_name }} | Add to {{ bashrc_file }}'
+  lineinfile: >
+    dest='{{ bashrc_file }}'
+    regexp='^addpath "${HOME}/abin$"'
+    line='addpath "${HOME}/abin"'
+    backrefs=yes
+
+- name: '{{ lib_name }} | Set ownership of {{ home_dir }}/abin to {{ user }}'
+  file:
+    dest: '{{ home_dir }}/abin'
+    owner: '{{ user }}'
