@@ -57,10 +57,14 @@
 
 - name: '{{ lib_name }} | Run cmake'
   command: >
-    {{ user_local_dir }}/bin/cmake
-    -DUSE_VTK=ON
-    -DUSE_SYSTEM_VTK=ON
-    -DVTK_DIR={{ vtk_build_dir }}
+    {{ user_local_dir }}/bin/cmake \
+    -DSuperBuild_ANTS_USE_GIT_PROTOCOL:BOOL=OFF
+    -DBUILD_TESTING:BOOL=OFF
+    -DUSE_VTK:BOOL=OFF
+    -DCMAKE_BUILD_TYPE:STRING=Release
+    -DBUILD_ALL_ANTS_APPS:BOOL=ON
+    -DBUILD_SHARED_LIBS:BOOL=OFF
+    -DBUILD_STYLE_UTILS:BOOL=OFF
     -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}
     {{ git_dir }}
   args:
