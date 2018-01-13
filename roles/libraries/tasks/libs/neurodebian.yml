@@ -67,7 +67,6 @@
     - dicomnifti
     - dcm2niix
     - bison
-    - fsl-5.0-eddy-nonfree
-    - fsl-5.0-core
+    - fsl-5.0-complete
   become: yes
   become_method: sudo
