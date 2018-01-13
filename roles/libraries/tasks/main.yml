@@ -37,29 +37,29 @@
   become: yes
   become_method: sudo
 
-- name: libraries | Add {{ local_bin_dir }} to PATH
-  lineinfile: >
-    dest=/etc/environment
-    state=present
-    backrefs=yes
-    regexp='^PATH=(["]*)((?!.*?{{ local_bin_dir }}).*?)(["]*)$'
-    line="PATH=\1\2:{{ local_bin_dir }}\3"
-  become: yes
-  become_method: sudo
-  tags: ld_config
+- name: 'libraries | Add {{ local_bin_dir }} to PATH in {{ bashrc_file }}'
+  lineinfile:
+    dest: "{{ bashrc_file }}"
+    regexp: '^addpath {{ local_bin_dir }}$'
+    line: 'addpath {{ local_bin_dir }}'
+    follow: yes
+  tags: rc
 
 - name: libraries | Add {{ user_local_dir }} to CMAKE_PREFIX_PATH
   lineinfile: >
-    dest=/etc/environment
+    name=/etc/environment
     state=present
     regexp="^CMAKE_PREFIX_PATH=.*"
     line='CMAKE_PREFIX_PATH="{{ user_local_dir }}"'
   become: yes
   become_method: sudo
-  tags: ld_config
+  tags: [ld_config, rc]
 
 - include_tasks: libs/neurodebian.yml
   tags: neurodebian
+
+- include_tasks: libs/fsl.yml
+  tags: fsl
 
 - include_tasks: libs/afni.yml
   tags: afni
