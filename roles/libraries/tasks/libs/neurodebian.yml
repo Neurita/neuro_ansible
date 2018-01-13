@@ -65,8 +65,6 @@
     allow_unauthenticated: yes
   with_items:
     - dicomnifti
-    - dcm2niix
     - bison
-    - fsl-5.0-complete
   become: yes
   become_method: sudo
