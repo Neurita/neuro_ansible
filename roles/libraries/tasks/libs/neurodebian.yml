@@ -2,7 +2,7 @@
 
 - name: neurodebian | Download the NeuroDebian repository sources list file
   get_url:
-    url: http://neuro.debian.net/lists/xenial.de-m.full
+    url: http://neuro.debian.net/lists/{{ ansible_distribution_release}}.de-m.full
     dest: '{{ home_dir }}/neurodebian.sources.list'
     mode: 0440
 
@@ -25,31 +25,31 @@
     become: yes
     become_method: sudo
 
-# - name: neurodebian | Add APT signing key
-#   apt_key:
-#     id: "0xA5D32F012649A5A9"
-#     keyserver: "hkp://pool.sks-keyservers.net:80"
-#     state: "present"
-#   become: yes
-#   become_method: sudo
-
-- name: neurodebian | Copy APT PGP key file
-  copy:
-    src: NeuroDebian.Archive.Key.Public.asc
-    dest: "{{ home_dir }}"
-
 - name: neurodebian | Add APT signing key
   apt_key:
     id: "0xA5D32F012649A5A9"
-    file: "{{ home_dir }}/NeuroDebian.Archive.Key.Public.asc"
+    keyserver: "hkp://pool.sks-keyservers.net:80"
     state: "present"
   become: yes
   become_method: sudo
 
-- name: neurodebian | Remove APT PGP key file
-  file:
-    path: "{{ home_dir }}/NeuroDebian.Archive.Key.Public.asc"
-    state: absent
+# - name: neurodebian | Copy APT PGP key file
+#   copy:
+#     src: NeuroDebian.Archive.Key.Public.asc
+#     dest: "{{ home_dir }}"
+
+# - name: neurodebian | Add APT signing key
+#   apt_key:
+#     id: "0xA5D32F012649A5A9"
+#     file: "{{ home_dir }}/NeuroDebian.Archive.Key.Public.asc"
+#     state: "present"
+#   become: yes
+#   become_method: sudo
+
+# - name: neurodebian | Remove APT PGP key file
+#   file:
+#     path: "{{ home_dir }}/NeuroDebian.Archive.Key.Public.asc"
+#     state: absent
 
 - name: libraries | Update cache
   apt:
