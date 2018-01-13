@@ -9,7 +9,7 @@
     unarchive_dir: "{{ soft_dir }}/{{ lib_name }}/matlab_installer"
     pkg_path: "{{ soft_dir }}/{{ lib_name }}/matlab_installer/installer.zip"
     install_dir: "{{ soft_dir }}/{{ lib_name }}"
-    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/bin"
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/{{ lib_version }}"
 
 - name: '{{ lib_name }} | Create download directory'
   file:
@@ -19,10 +19,16 @@
     - "{{ soft_dir }}/{{ lib_name }}"
     - "{{ unarchive_dir }}"
 
+- name: '{{ lib_name }} | Check if {{ check_if_exists }} exists'
+  stat:
+    path: "{{ check_if_exists }}"
+  register: lib_install_path
+
 - name: '{{ lib_name }} | Download package'
   get_url:
     url: "{{ pkg_url }}"
     dest: "{{ pkg_path }}"
+  when: not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Prepare installer config'
   blockinfile:
@@ -36,17 +42,20 @@
       agreeToLicense=yes
       outputFile=/tmp/matlabinstall_log
       mode=silent
+  when: not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Unzip package'
-  command: unzip {{ pkg_path }} -d {{ unarchive_dir }}
+  unarchive:
+    src: "{{ pkg_path }}"
+    dest: "{{ unarchive_dir }}"
+    remote_src: yes
+  when: not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Run installer'
   command: >
     {{ unarchive_dir }}/install
     -inputFile {{ unarchive_dir }}/mcr_options.txt
-
-- name: '{{ lib_name }} | Cleanup installer'
-  command: "rm -rf {{ unarchive_dir }}"
+  when: not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
   lineinfile:
@@ -61,3 +70,13 @@
     regexp: '^addpath ${MCR_DIR}/bin$'
     line: 'addpath ${MCR_DIR}/bin'
     backrefs: yes
+
+- name: '{{ lib_name }} | Cleanup installer'
+  command: "rm -rf {{ unarchive_dir }}"
+
+- name: '{{ lib_name }} | Remove download directory'
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ unarchive_dir }}"

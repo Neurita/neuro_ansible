@@ -19,13 +19,23 @@
   with_items:
     - "{{ unarchive_dir }}"
 
+- name: '{{ lib_name }} | Check if {{ check_if_exists }} exists'
+  stat:
+    path: "{{ check_if_exists }}"
+  register: lib_install_path
+
 - name: '{{ lib_name }} | Download package'
   get_url:
     url: "{{ pkg_url }}"
     dest: "{{ pkg_path }}"
+  when: not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Unzip package'
-  command: unzip {{ pkg_path }} -d {{ unarchive_dir }}
+  unarchive:
+    src: "{{ pkg_path }}"
+    dest: "{{ unarchive_dir }}"
+    remote_src: yes
+  when: not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/3'
   lineinfile:
