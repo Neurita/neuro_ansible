@@ -6,5 +6,6 @@
 
 - name: insert/update {{ bashrc_file }}
   blockinfile:
-    path: '{{ bashrc_file }}'
-    block: '{{ lookup('file', 'bashrc_extension' ) }}'
+    path: "{{ bashrc_file }}"
+    block: "{{ lookup('file', 'bashrc_extension' ) }}"
+  tags: rc
