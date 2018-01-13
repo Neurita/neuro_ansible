@@ -57,7 +57,7 @@
 
 - name: '{{ lib_name }} | Run cmake'
   command: >
-    {{ user_local_dir }}/bin/cmake \
+    {{ user_local_dir }}/bin/cmake
     -DSuperBuild_ANTS_USE_GIT_PROTOCOL:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
     -DUSE_VTK:BOOL=OFF
@@ -70,6 +70,9 @@
   args:
     chdir: "{{ build_dir }}"
     creates: "{{ build_dir }}/Makefile"
+  environment:
+    CC: "gcc-6"
+    CXX: "g++-6"
   when: lib_exists.stat.exists == False
 
 - name: '{{ lib_name }} | Build'

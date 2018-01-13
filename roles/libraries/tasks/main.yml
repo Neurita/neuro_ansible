@@ -26,14 +26,9 @@
     allow_unauthenticated: yes
   with_items:
     - apt-utils
+    - gcc-6
+    - g++-6
     - locales
-    - cmake
-    - gcc-4.8
-    - g++-4.8
-    - gfortran-4.8
-    - gcc-5
-    - g++-5
-    - gfortran-5
     - libjpeg62
     - libxml2-dev
     - libxslt1-dev
