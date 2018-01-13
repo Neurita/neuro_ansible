@@ -18,7 +18,7 @@
 #     rm -rf dcm2niix
 
 - set_fact:
-    lib_version: "v1.0.20171017"
+    lib_version: "v1.0.20171215"
     lib_name: 'dcm2niix'
 
 - set_fact:
