@@ -76,7 +76,7 @@
     dest: "{{ bashrc_file }}"
     regexp: '^export SIMPLEITK_PATH=.*'
     line: 'export SIMPLEITK_PATH=${SOFT}/{{ lib_name }}/build/lib'
-    backrefs: yes
+    follow: yes
   tags: rc
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
@@ -84,7 +84,7 @@
     dest: "{{ bashrc_file }}"
     regexp: '^addlibpath \${SIMPLEITK_PATH}$'
     line: 'addlibpath ${SIMPLEITK_PATH}'
-    backrefs: yes
+    follow: yes
   tags: rc
 
 # - name: '{{ lib_name }} | Install'
