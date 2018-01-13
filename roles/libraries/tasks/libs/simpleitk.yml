@@ -60,6 +60,9 @@
   args:
     chdir: "{{ build_dir }}"
     creates: "{{ build_dir }}/Makefile"
+  environment:
+    CC: "{{ default_gcc }}"
+    CXX: "{{ default_gpp }}"
   when: lib_exists.stat.exists == False
 
 - name: '{{ lib_name }} | Build'

@@ -8,3 +8,6 @@ local_downloads_dir: '{{ playbook_dir }}/downloads'
 
 vtk_build_dir: "{{ soft_dir }}/vtk/build"
 ants_build_dir: "{{ soft_dir }}/ants/build"
+
+default_gcc: "gcc-6"
+default_gpp: "g++-6"
