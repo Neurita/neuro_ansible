@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
 
-- hosts: remote
+- hosts: all
   gather_facts: yes
   environment:
     - LC_ALL: '{{ locale }}'

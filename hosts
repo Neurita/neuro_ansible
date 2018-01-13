@@ -1,2 +1,6 @@
-remote ansible_ssh_host=10.11.10.11 ansible_ssh_user=ubuntu
-production
+
+[vagrant]
+remote ansible_host=10.11.10.11 ansible_user=ubuntu
+
+[production]
+neuro
