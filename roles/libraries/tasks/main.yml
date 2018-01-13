@@ -3,21 +3,12 @@
 # - name: libraries | Make local downloads dir in {{ local_downloads_dir }}
 #   local_action: path dest="{{ local_downloads_dir }}" state=directory
 
-- apt_repository:
-    repo: deb-src http://archive.ubuntu.com/ubuntu xenial main restricted
-    state: present
-  become: yes
-  become_method: sudo
-
-- apt_repository:
-    repo: deb http://archive.canonical.com/ubuntu xenial partner
-    state: present
-  become: yes
-  become_method: sudo
-
-- apt_repository:
-    repo: deb http://archive.canonical.com/ubuntu xenial universe
-    state: present
+- name: libraries | apt_repository
+  command: >
+      add-apt-repository {{ item }}
+  with_items:
+    - restricted
+    - universe
   become: yes
   become_method: sudo
 
