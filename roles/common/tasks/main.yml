@@ -1,6 +1,6 @@
 ---
 
-- name: Set locale
+- name: common | Set locale
   locale_gen:
     name: '{{ locale }}'
     state: present
@@ -25,11 +25,6 @@
     regexp: '^export SOFT='
     line: 'export SOFT="{{ soft_dir }}"'
 
-# - name: fish | Add 'ppa:fish-shell/release-2' repository
-#   apt_repository:
-#     repo: 'ppa:fish-shell/release-2'
-#     state: present
-
 - name: APT | Update cache, be patient
   apt:
     update_cache: yes
@@ -45,36 +40,10 @@
     - build-essential
     - mesa-common-dev
     - libglu1-mesa-dev
-    - bash-completion
-    - openssh-server
-    - apt-utils
-    - rsync
-    - vim
-    - git
-    - git-core
-    - git-extras
     - curl
     - wget
-    - htop
-    - ack-grep
     - ccze
-    - tmux
-    - tig
     - unzip
     - tar
     - gzip
     - bzip2
-    - pwgen
-    - ranger
-
-  # - name: fish | Let's use Fish Shell
-  #   user:
-  #     name: "{{ ansible_user }}"
-  #     shell: /usr/bin/fish
-  #   become: yes
-  #   become_method: sudo
-  #
-  # - name: fish | Set full path in the fish command prompt
-  #   command: >
-  #     exec fish
-  #     set -U fish_prompt_pwd_dir_length 0
