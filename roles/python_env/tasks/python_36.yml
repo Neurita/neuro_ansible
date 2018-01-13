@@ -4,8 +4,8 @@
   set_fact:
     lib_name: python-3.6
     lib_version: 3.6
-    tarball_url: "https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tar.xz"
-    tarball_hash: "md5:b9c2c36c33fb89bda1fefd37ad5af9be"
+    tarball_url: "https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tar.xz"
+    tarball_hash: "md5:1325134dd525b4a2c3272a1a0214dd54."
 
 - name: '{{ lib_name }} | Set variables'
   set_fact:
