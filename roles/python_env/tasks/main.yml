@@ -29,6 +29,7 @@
     - pip
     - setuptools
     - wheel
+    - pipenv
 
 - name: python_env | Install requirements
   pip:
