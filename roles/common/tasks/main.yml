@@ -20,10 +20,12 @@
   become: yes
   become_method: sudo
 
-- lineinfile:
+- name: common | Add $SOFT as soft_dir in {{ bashrc_file }}
+  lineinfile:
     path: '{{ bashrc_file }}'
     regexp: '^export SOFT='
     line: 'export SOFT="{{ soft_dir }}"'
+    follow: yes
   tags: rc
 
 - name: APT | Update cache, be patient

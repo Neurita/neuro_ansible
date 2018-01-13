@@ -93,11 +93,11 @@
     cp {{ home_dir }}/abin/AFNI.afnirc {{ home_dir }}/.afnirc
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }}'
-  lineinfile: >
-    dest='{{ bashrc_file }}'
-    regexp='^addpath "\${HOME}/abin"$'
-    line='addpath "${HOME}/abin"'
-    backrefs=yes
+  lineinfile:
+    dest: '{{ bashrc_file }}'
+    regexp: '^addpath "\${HOME}/abin"$'
+    line: 'addpath "${HOME}/abin"'
+    follow: yes
   tags: rc
 
 - name: '{{ lib_name }} | Set ownership of {{ home_dir }}/abin to {{ user }}'

@@ -8,4 +8,5 @@
   blockinfile:
     path: "{{ bashrc_file }}"
     block: "{{ lookup('file', 'bashrc_extension' ) }}"
+    follow: yes
   tags: rc

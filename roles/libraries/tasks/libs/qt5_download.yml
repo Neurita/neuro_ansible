@@ -41,7 +41,6 @@
   lineinfile: >
     dest=/etc/environment
     state=present
-    backrefs=yes
     regexp='^PATH=(["]*)((?!.*?{{ qt_bin_dir }}).*?)(["]*)$'
     line="PATH=\1\2:{{ qt_bin_dir }}\3"
   become: yes
@@ -52,7 +51,6 @@
   lineinfile: >
     dest=/etc/environment
     state=present
-    backrefs=yes
     regexp='^CMAKE_PREFIX_PATH=(["]*)((?!.*?{{ install_dir }}).*?)(["]*)$'
     line="CMAKE_PREFIX_PATH=\1\2:{{ install_dir }}\3"
   become: yes

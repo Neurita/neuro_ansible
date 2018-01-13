@@ -42,7 +42,7 @@
     dest: "{{ bashrc_file }}"
     regexp: '^export SPM_DIR=.*'
     line: 'export SPM_DIR=${SOFT}/spm12'
-    backrefs: yes
+    follow: yes
   tags: rc
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/3'
@@ -50,7 +50,7 @@
     dest: "{{ bashrc_file }}"
     regexp: '^export SPMMCRCMD=.*'
     line: 'export SPMMCRCMD="${SPM_DIR}/run_spm12.sh ${MCR_DIR} script"'
-    backrefs: yes
+    follow: yes
   tags: rc
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 3/3'
@@ -58,5 +58,5 @@
     dest: "{{ bashrc_file }}"
     regexp: '^export FORCE_SPMMCR=1$'
     line: 'export FORCE_SPMMCR=1'
-    backrefs: yes
+    follow: yes
   tags: rc
