@@ -57,13 +57,15 @@
     regexp: '^export PETPVCPATH=.*'
     line: 'export PETPVCPATH=${SOFT}/{{ lib_name }}/build/bin'
     backrefs: yes
+  tags: rc
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
   lineinfile:
     dest: "{{ bashrc_file }}"
-    regexp: '^addpath ${PETPVCPATH}$'
+    regexp: '^addpath \${PETPVCPATH}$'
     line: 'addpath ${PETPVCPATH}'
     backrefs: yes
+  tags: rc
 
 # - name: '{{ lib_name }} | Install'
 #   command: "make install"

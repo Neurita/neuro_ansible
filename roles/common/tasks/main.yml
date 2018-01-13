@@ -24,6 +24,7 @@
     path: '{{ bashrc_file }}'
     regexp: '^export SOFT='
     line: 'export SOFT="{{ soft_dir }}"'
+  tags: rc
 
 - name: APT | Update cache, be patient
   apt:

@@ -63,20 +63,19 @@
     regexp: '^export MCR_DIR=.*'
     line: 'export MCR_DIR=${SOFT}/{{ lib_name }}/{{ lib_version }}'
     backrefs: yes
+  tags: rc
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
   lineinfile:
     dest: "{{ bashrc_file }}"
-    regexp: '^addpath ${MCR_DIR}/bin$'
+    regexp: '^addpath \${MCR_DIR}/bin$'
     line: 'addpath ${MCR_DIR}/bin'
     backrefs: yes
-
-- name: '{{ lib_name }} | Cleanup installer'
-  command: "rm -rf {{ unarchive_dir }}"
+  tags: rc
 
 - name: '{{ lib_name }} | Remove download directory'
   file:
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ unarchive_dir }}"
+    - "{{ unarchive_dir }}/"

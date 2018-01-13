@@ -84,13 +84,15 @@
     regexp: '^export ANTSPATH=.*'
     line: 'export ANTSPATH=${SOFT}/{{ lib_name }}/build/bin'
     backrefs: yes
+  tags: rc
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
   lineinfile:
     dest: "{{ bashrc_file }}"
-    regexp: '^addpath ${ANTSPATH}$'
+    regexp: '^addpath \${ANTSPATH}$'
     line: 'addpath ${ANTSPATH}'
     backrefs: yes
+  tags: rc
 
 # - name: '{{ lib_name }} | Install'
 #   command: "make install"

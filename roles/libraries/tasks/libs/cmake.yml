@@ -37,7 +37,7 @@
     dest: "{{ tarball_path }}"
     checksum: "{{ tarball_hash }}"
 
-- name: cmake | Unpack CMake in remote
+- name: cmake | Unpack CMake
   unarchive:
     src: "{{ tarball_path }}"
     dest: "{{ unarchive_dir }}"
