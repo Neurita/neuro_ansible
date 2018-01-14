@@ -86,8 +86,8 @@
   - include_tasks: libs/petpvc.yml
     tags: petpvc
 
-# - include_tasks: libs/simpleitk.yml
-#   tags: simpleitk
+  - include_tasks: libs/simpleitk.yml
+    tags: simpleitk
 
   tags: itk
 

@@ -10,7 +10,7 @@
     git_dir:   "{{ soft_dir }}/{{ lib_name }}/{{ lib_name }}"
     build_dir: "{{ soft_dir }}/{{ lib_name }}/build"
     git_tag:   "{{ lib_version }}"
-    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/build/bin"
+    check_if_exists: "{{ soft_dir }}/{{ lib_name }}/build/SimpleITK-build/bin"
 
 - name: '{{ lib_name }} | Create directories'
   file:
@@ -68,6 +68,8 @@
   command: "make -j {{ n_cpus }}"
   args:
     chdir: "{{ build_dir }}"
+  become: yes
+  become_method: sudo
   when: lib_exists.stat.exists == False
 
 - name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
