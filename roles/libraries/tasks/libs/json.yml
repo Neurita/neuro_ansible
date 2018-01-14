@@ -53,3 +53,11 @@
   become: yes
   become_method: sudo
   when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Remove {{ build_dir }} directory'
+  file:
+    path: "{{ build_dir }}"
+    state: absent
+  become: yes
+  become_method: sudo
+  tags: cleanup

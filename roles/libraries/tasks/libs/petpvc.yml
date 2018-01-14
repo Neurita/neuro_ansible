@@ -70,14 +70,19 @@
     follow: yes
   tags: rc
 
-# - name: '{{ lib_name }} | Install'
-#   command: "make install"
-#   args:
-#     chdir: "{{ build_dir }}"
-#   become: yes
-#   become_method: sudo
-#   when: lib_exists.stat.exists == False
-#
-# - name: '{{ lib_name }} | Clean sources'
-#   command: "rm -rf {{ root_dir }}"
-#   when: '{{ cleanup_sources }}'
+- name: '{{ lib_name }} | Install'
+  command: "make install"
+  args:
+    chdir: "{{ build_dir }}"
+  become: yes
+  become_method: sudo
+  when: lib_exists.stat.exists == False
+
+- name: '{{ lib_name }} | Remove {{ build_dir }} directory'
+  file:
+    path: "{{ build_dir }}"
+    state: absent
+  become: yes
+  become_method: sudo
+  when: cleanup_sources
+  tags: cleanup

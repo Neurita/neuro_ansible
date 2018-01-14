@@ -72,30 +72,18 @@
   become_method: sudo
   when: lib_exists.stat.exists == False
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
-  lineinfile:
-    dest: "{{ bashrc_file }}"
-    regexp: '^export SIMPLEITK_PATH=.*'
-    line: 'export SIMPLEITK_PATH=${SOFT}/{{ lib_name }}/build/lib'
-    follow: yes
-  tags: rc
+- name: '{{ lib_name }} | Install'
+  command: "make install"
+  args:
+    chdir: "{{ build_dir }}/SimpleITK-build"
+  become: yes
+  become_method: sudo
+  when: lib_exists.stat.exists == False
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
-  lineinfile:
-    dest: "{{ bashrc_file }}"
-    regexp: '^addlibpath \${SIMPLEITK_PATH}$'
-    line: 'addlibpath ${SIMPLEITK_PATH}'
-    follow: yes
-  tags: rc
-
-# - name: '{{ lib_name }} | Install'
-#   command: "make install"
-#   args:
-#     chdir: "{{ build_dir }}"
-#   become: yes
-#   become_method: sudo
-#   when: lib_exists.stat.exists == False
-#
-# - name: '{{ lib_name }} | Clean sources'
-#   command: "rm -rf {{ root_dir }}"
-#   when: '{{ cleanup_sources }}'
+- name: '{{ lib_name }} | Remove {{ build_dir }} directory'
+  file:
+    path: "{{ build_dir }}"
+    state: absent
+  become: yes
+  become_method: sudo
+  tags: cleanup

@@ -58,3 +58,11 @@
   become: yes
   become_method: sudo
   when: eigen3_exists.stat.exists == False
+
+- name: 'eigen3 | Remove {{ build_dir }} directory'
+  file:
+    path: "{{ build_dir }}"
+    state: absent
+  become: yes
+  become_method: sudo
+  tags: cleanup
