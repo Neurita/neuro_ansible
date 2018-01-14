@@ -6,7 +6,7 @@
     state: installed
     allow_unauthenticated: yes
   with_items:
-    - fsl-5.0-complete
+    - fsl-5.0-core
   become: yes
   become_method: sudo
 
