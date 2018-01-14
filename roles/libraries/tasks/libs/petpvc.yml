@@ -54,22 +54,6 @@
     chdir: "{{ build_dir }}"
   when: lib_exists.stat.exists == False
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
-  lineinfile:
-    dest: "{{ bashrc_file }}"
-    regexp: '^export PETPVCPATH=.*'
-    line: 'export PETPVCPATH=${SOFT}/{{ lib_name }}/build/bin'
-    follow: yes
-  tags: rc
-
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
-  lineinfile:
-    dest: "{{ bashrc_file }}"
-    regexp: '^addpath \${PETPVCPATH}$'
-    line: 'addpath ${PETPVCPATH}'
-    follow: yes
-  tags: rc
-
 - name: '{{ lib_name }} | Install'
   command: "make install"
   args:
