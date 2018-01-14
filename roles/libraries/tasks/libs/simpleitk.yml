@@ -51,6 +51,7 @@
     -DPYTHON_EXECUTABLE=/usr/bin/python3
     -DPYTHON_INCLUDE_DIR=/usr/include/python3.6
     -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so
+    -DITK_DIR={{ ants_build_dir }}/ITKv4-build
     -DWRAP_JAVA=OFF
     -DWRAP_CSHARP=OFF
     -DWRAP_RUBY=OFF
@@ -86,4 +87,5 @@
     state: absent
   become: yes
   become_method: sudo
+  when: 'cleanup_sources'
   tags: cleanup
