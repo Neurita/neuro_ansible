@@ -89,6 +89,15 @@
   - include_tasks: libs/simpleitk.yml
     tags: simpleitk
 
+  - name: '{{ lib_name }} | Remove {{ ants_build_dir }} directory'
+    file:
+      path: "{{ ants_build_dir }}"
+      state: absent
+    become: yes
+    become_method: sudo
+    when: cleanup_sources
+    tags: cleanup
+
   tags: itk
 
 # - include_tasks: libs/boost.yml
