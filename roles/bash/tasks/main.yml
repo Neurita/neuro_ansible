@@ -1,0 +1,26 @@
+---
+
+- synchronize:
+    src: home
+    dest: '{{ home_dir }}'
+
+- name: bash | Add block {{ bashrc_file }}
+  blockinfile:
+    path: "{{ bashrc_file }}"
+    block: "{{ lookup('file', 'bashrc_extension' ) }}"
+    follow: yes
+
+- name: bash | Create {{ bashd_dir }} directory
+  file:
+    path: '{{ bashd_dir }}'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ group }}'
+
+- name: bash | Create neuro.bash rc file in {{ bashd_dir }}
+  template:
+    src: "neuro.bash.j2"
+    dest: "{{ neuro_bash_file }}"
+    owner: '{{ user }}'
+    group: '{{ group }}'
+    mode: u=rwx,g=rx,o=rx

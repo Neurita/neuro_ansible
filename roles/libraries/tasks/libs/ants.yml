@@ -62,17 +62,17 @@
     chdir: "{{ build_dir }}"
   when: lib_exists.stat.exists == False
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
+- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 1/2'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^export ANTSPATH=.*'
     line: 'export ANTSPATH=${SOFT}/{{ lib_name }}/build/bin'
     follow: yes
   tags: rc
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
+- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 2/2'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^addpath \${ANTSPATH}$'
     line: 'addpath ${ANTSPATH}'
     follow: yes

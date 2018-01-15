@@ -37,9 +37,9 @@
   become: yes
   become_method: sudo
 
-- name: 'libraries | Add {{ local_bin_dir }} to PATH in {{ bashrc_file }}'
+- name: 'libraries | Add {{ local_bin_dir }} to PATH in {{ target_bashrc_file }}'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^addpath {{ local_bin_dir }}$'
     line: 'addpath {{ local_bin_dir }}'
     follow: yes

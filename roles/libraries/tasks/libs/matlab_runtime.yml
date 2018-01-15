@@ -57,17 +57,17 @@
     -inputFile {{ unarchive_dir }}/mcr_options.txt
   when: not lib_install_path.stat.exists
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
+- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 1/2'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^export MCR_DIR=.*'
     line: 'export MCR_DIR=${SOFT}/{{ lib_name }}/{{ lib_version }}'
     follow: yes
   tags: rc
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
+- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 2/2'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^addpath \${MCR_DIR}/bin$'
     line: 'addpath ${MCR_DIR}/bin'
     follow: yes
@@ -75,7 +75,5 @@
 
 - name: '{{ lib_name }} | Remove download directory'
   file:
-    path: "{{ item }}"
+    path: "{{ unarchive_dir }}"
     state: absent
-  with_items:
-    - "{{ unarchive_dir }}/"

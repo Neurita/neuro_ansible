@@ -20,9 +20,9 @@
   become: yes
   become_method: sudo
 
-- name: common | Add $SOFT as soft_dir in {{ bashrc_file }}
+- name: common | Add $SOFT as soft_dir in {{ target_bashrc_file }}
   lineinfile:
-    path: '{{ bashrc_file }}'
+    path: '{{ target_bashrc_file }}'
     regexp: '^export SOFT='
     line: 'export SOFT="{{ soft_dir }}"'
     follow: yes

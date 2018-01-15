@@ -1,3 +1,5 @@
 ---
 
 bashrc_file: '{{ home_dir }}/.bashrc'
+bashd_dir: '{{ home_dir }}/.bash.d'
+neuro_bash_file: '{{ bashd_dir }}/neuro.bash'

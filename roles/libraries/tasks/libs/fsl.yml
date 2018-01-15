@@ -10,9 +10,9 @@
   become: yes
   become_method: sudo
 
-- name: 'fsl | Add to {{ bashrc_file }}'
+- name: 'fsl | Add to {{ target_bashrc_file }}'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^\. /etc/fsl/5.0/fsl\.sh$'
     line: '. /etc/fsl/5.0/fsl.sh'
     follow: yes

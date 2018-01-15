@@ -38,17 +38,17 @@
     path: "{{ check_if_exists }}"
   register: lib_exists
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 1/2'
+- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 1/2'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^export CAMINO_PATH=.*$'
     line: 'export CAMINO_PATH=${SOFT}/{{ lib_name }}/bin'
     follow: yes
   tags: rc
 
-- name: '{{ lib_name }} | Add to {{ bashrc_file }} 2/2'
+- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 2/2'
   lineinfile:
-    dest: "{{ bashrc_file }}"
+    dest: "{{ target_bashrc_file }}"
     regexp: '^addpath \${CAMINO_PATH}$'
     line: 'addpath ${CAMINO_PATH}'
     follow: yes
