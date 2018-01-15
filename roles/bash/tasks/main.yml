@@ -1,7 +1,7 @@
 ---
 
 - synchronize:
-    src: home
+    src: .scripts
     dest: '{{ home_dir }}'
 
 - name: bash | Add block {{ bashrc_file }}
