@@ -8,8 +8,8 @@
     pkg_url: "http://www.fil.ion.ucl.ac.uk/spm/download/restricted/utopia/dev/spm12_latest_Linux_R2017b.zip"
 
 - set_fact:
-    unarchive_dir: "{{ soft_dir }}/{{ lib_name }}"
-    pkg_path: "{{ soft_dir }}/{{ lib_name }}/{{ pkg_url | basename }}"
+    unarchive_dir: "{{ soft_dir }}"
+    pkg_path: "{{ soft_dir }}/{{ pkg_url | basename }}"
     check_if_exists: "{{ soft_dir }}/{{ lib_name }}/run_spm12.sh"
 
 - name: '{{ lib_name }} | Create download directory'
@@ -60,3 +60,6 @@
     line: 'export FORCE_SPMMCR=1'
     follow: yes
   tags: rc
+
+# export SPM_ARCH=glnx64
+# addlibpath ${MCR_DIR}/runtime/$SPM_ARCH
