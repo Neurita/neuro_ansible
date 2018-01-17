@@ -30,7 +30,7 @@
   set_fact:
     pkg_path: "{{ unarchive_dir }}/{{ pkg_url | basename }}"
     updt_path: "{{ unarchive_dir }}/{{ updt_url | basename }}"
-    install_dir: "{{ soft_dir }}/{{ lib_name }}/bin"
+    install_dir: "{{ home_dir }}/abin"
     check_if_exists: "{{ soft_dir }}/{{ lib_name }}/bin"
 
 - name: '{{ lib_name }} | Install packages 1/2'
@@ -69,7 +69,6 @@
     state: directory
   with_items:
     - "{{ unarchive_dir }}"
-    - "{{ install_dir }}"
 
 - name: '{{ lib_name }} | Download binary package'
   get_url:
@@ -90,7 +89,7 @@
 
 - name: '{{ lib_name }} | Copy .afnirc to {{ home_dir }}'
   command: >
-    cp {{ home_dir }}/abin/AFNI.afnirc {{ home_dir }}/.afnirc
+    cp {{ install_dir }}/AFNI.afnirc {{ home_dir }}/.afnirc
 
 - name: '{{ lib_name }} | Add to {{ target_bashrc_file }}'
   lineinfile:
@@ -102,5 +101,5 @@
 
 - name: '{{ lib_name }} | Set ownership of {{ home_dir }}/abin to {{ user }}'
   file:
-    dest: '{{ home_dir }}/abin'
+    dest: '{{ install_dir }}'
     owner: '{{ user }}'
