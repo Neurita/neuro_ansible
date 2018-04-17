@@ -1,6 +1,6 @@
 ---
 
-- include_tasks: python_36.yml
+- import_tasks: python_36.yml
   tags: [build_python, python]
 
 - name: python_env | Create directories

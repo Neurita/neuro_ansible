@@ -26,6 +26,7 @@
     regexp: '^export SOFT='
     line: 'export SOFT="{{ soft_dir }}"'
     follow: yes
+    create: yes
   tags: rc
 
 - name: APT | Update cache, be patient

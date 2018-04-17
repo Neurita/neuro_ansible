@@ -43,6 +43,7 @@
     regexp: '^addpath {{ local_bin_dir }}$'
     line: 'addpath {{ local_bin_dir }}'
     follow: yes
+    create: yes
   tags: rc
 
 - name: libraries | Add {{ user_local_dir }} to CMAKE_PREFIX_PATH
@@ -55,38 +56,38 @@
   become_method: sudo
   tags: [ld_config, rc]
 
-- include_tasks: libs/neurodebian.yml
+- import_tasks: libs/neurodebian.yml
   tags: neurodebian
 
-- include_tasks: libs/fsl.yml
+- import_tasks: libs/fsl.yml
   tags: fsl
 
-- include_tasks: libs/afni.yml
+- import_tasks: libs/afni.yml
   tags: afni
 
-- include_tasks: libs/camino.yml
+- import_tasks: libs/camino.yml
   tags: camino
 
-- include_tasks: libs/spm_mcr.yml
+- import_tasks: libs/spm_mcr.yml
   tags: spm_mcr
 
-- include_tasks: libs/cmake.yml
+- import_tasks: libs/cmake.yml
   tags: cmake
 
-- include_tasks: libs/dcm2niix.yml
+- import_tasks: libs/dcm2niix.yml
   tags: dcm2niix
 
 - block:
-  - include_tasks: libs/vtk.yml
+  - import_tasks: libs/vtk.yml
     tags: vtk
 
-  - include_tasks: libs/ants.yml
+  - import_tasks: libs/ants.yml
     tags: ants
 
-  - include_tasks: libs/petpvc.yml
+  - import_tasks: libs/petpvc.yml
     tags: petpvc
 
-  - include_tasks: libs/simpleitk.yml
+  - import_tasks: libs/simpleitk.yml
     tags: simpleitk
 
   - name: '{{ lib_name }} | Remove {{ ants_build_dir }} directory'
@@ -100,17 +101,17 @@
 
   tags: itk
 
-# - include_tasks: libs/boost.yml
+# - import_tasks: libs/boost.yml
 #   tags: boost
 #
-# - include_tasks: libs/eigen3.yml
+# - import_tasks: libs/eigen3.yml
 #   tags: eigen3
 #
-# - include_tasks: libs/json.yml
+# - import_tasks: libs/json.yml
 #   tags: json
 #
-# - include_tasks: libs/qt5_download.yml
+# - import_tasks: libs/qt5_download.yml
 #   tags: qt5
 
-# - include_tasks: libs/googletest.yml
+# - import_tasks: libs/googletest.yml
 #   tags: googletest

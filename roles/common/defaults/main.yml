@@ -1,6 +1,6 @@
 ---
 
-soft_dir:        "/home/{{ user }}/software"
+soft_dir:        "/home/{{ user }}/Software"
 tmp_install_dir: "/home/{{ user }}/tmp"
 projects_dir:    "/home/{{ user }}/projects"
 bin_dir:         "/home/{{ user }}/bin"

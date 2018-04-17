@@ -15,7 +15,7 @@
 #     echo "addpath \$HOME/abin" >> $BASHRC && \
 #     chown -R $BASICUSER $HOME/abin
 
-- include_tasks: libxp.yml
+- import_tasks: libxp.yml
   tags: libxp
 
 - set_fact:
@@ -97,6 +97,7 @@
     regexp: '^addpath "\${HOME}/abin"$'
     line: 'addpath "${HOME}/abin"'
     follow: yes
+    create: yes
   tags: rc
 
 - name: '{{ lib_name }} | Set ownership of {{ home_dir }}/abin to {{ user }}'

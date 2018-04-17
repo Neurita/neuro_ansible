@@ -44,6 +44,7 @@
     regexp: '^export CAMINO_PATH=.*$'
     line: 'export CAMINO_PATH=${SOFT}/{{ lib_name }}/bin'
     follow: yes
+    create: yes
   tags: rc
 
 - name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 2/2'
@@ -52,4 +53,5 @@
     regexp: '^addpath \${CAMINO_PATH}$'
     line: 'addpath ${CAMINO_PATH}'
     follow: yes
+    create: yes
   tags: rc

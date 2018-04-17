@@ -16,4 +16,5 @@
     regexp: '^\. /etc/fsl/5.0/fsl\.sh$'
     line: '. /etc/fsl/5.0/fsl.sh'
     follow: yes
+    create: yes
   tags: rc

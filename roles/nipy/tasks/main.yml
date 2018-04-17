@@ -4,7 +4,7 @@
   - set_fact:
       env_python: neuro
 
-  - include_tasks: python_env
+  - import_tasks: python_env
   when: python_env is not defined
 
 - name: nipy | Copy requirements file

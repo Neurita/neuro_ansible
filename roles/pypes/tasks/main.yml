@@ -1,6 +1,6 @@
 ---
 
-- include_tasks: clone.yml
+- import_tasks: clone.yml
   tags: clone_pypes
 
 - name: neuro_pypes | Install requirements
