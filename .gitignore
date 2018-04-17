@@ -72,3 +72,4 @@ devdoc/
 .vagrant/
 vault-pass.txt
 downloads/
+.ansible_cache/

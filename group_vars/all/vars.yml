@@ -1,6 +1,6 @@
 ---
 
-user: '{{ ansible_user }}'
+user: '{{ ansible_user_id }}'
 group: '{{ user }}'
 
 home_dir: '/home/{{ user }}'
