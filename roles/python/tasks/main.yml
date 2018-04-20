@@ -1,0 +1,17 @@
+---
+
+- import_tasks: python_36.yml
+  tags: [build_python, python]
+
+- name: Update base modules
+  pip:
+    name: "{{ item }}"
+    state: latest
+    executable: "{{ sys_python_pip }}"
+  loop:
+    - pip
+    - setuptools
+    - wheel
+    - pipenv
+  become: yes
+  become_method: sudo

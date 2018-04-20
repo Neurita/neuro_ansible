@@ -3,7 +3,7 @@
 - name: Set variables
   set_fact:
     git_url: "https://github.com/Neurita/pypes.git"
-    git_dir: "{{ ansible_env.HOME }}/projects/neuro_pypes"
+    git_dir: "{{ neuro_projects_dir }}/neuro_pypes"
     git_tag: "master"
 
 - name: neuro_pypes | Set variables
@@ -28,7 +28,7 @@
 - name: neuro_docker | Set variables
   set_fact:
     git_url: "https://github.com/Neurita/neuro_docker.git"
-    git_dir: "{{ ansible_env.HOME }}/projects/neuro_docker"
+    git_dir: "{{ neuro_projects_dir }}/neuro_docker"
     git_tag: "master"
 
 - name: neuro_docker | Create directories
@@ -49,7 +49,7 @@
 - name: std_brains | Set variables
   set_fact:
     git_url: "https://github.com/Neurita/std_brains.git"
-    git_dir: "{{ ansible_env.HOME }}/projects/std_brains"
+    git_dir: "{{ neuro_projects_dir }}/neuro/std_brains"
     git_tag: "master"
 
 - name: std_brains | Create directories
