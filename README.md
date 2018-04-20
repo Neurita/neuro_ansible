@@ -20,6 +20,8 @@ To configure and deploy in a remote machine, do:
 ./playbook.yml -l neuro --extra-vars="ansible_host=<ip_address> ansible_user=<user_name> n_cpus=4" -K
 ```
 
+Have a look at the [ansible-playbook](https://docs.ansible.com/ansible/2.4/ansible-playbook.html#ansible-playbook) instructions for more details on how to use the command line.
+
 
 ## Testing
 
