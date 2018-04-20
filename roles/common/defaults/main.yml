@@ -1,8 +1,10 @@
 ---
 
-soft_dir:        "/home/{{ user }}/Software"
-tmp_install_dir: "/home/{{ user }}/tmp"
-projects_dir:    "/home/{{ user }}/projects"
-bin_dir:         "/home/{{ user }}/bin"
+soft_dir:           "{{ home_dir }}/Software"
+tmp_install_dir:    "{{ home_dir }}/tmp"
+projects_dir:       "{{ home_dir }}/projects"
+neuro_projects_dir: "{{ home_dir }}/projects/neuro"
+bin_dir:            "{{ home_dir }}/bin"
+
 user_local_dir:  "/opt"
 local_bin_dir:   "{{ user_local_dir }}/bin"
