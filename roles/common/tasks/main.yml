@@ -12,7 +12,7 @@
     state: directory
     owner: '{{ user }}'
     group: '{{ group }}'
-  with_items:
+  loop:
     - '{{ soft_dir }}'
     - '{{ user_local_dir }}'
     - '{{ tmp_install_dir }}'
@@ -40,7 +40,7 @@
   apt:
     pkg: "{{ item }}"
     state: installed
-  with_items:
+  loop:
     - build-essential
     - mesa-common-dev
     - libglu1-mesa-dev
@@ -51,3 +51,4 @@
     - tar
     - gzip
     - bzip2
+    - direnv
