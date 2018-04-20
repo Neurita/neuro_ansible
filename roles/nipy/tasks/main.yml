@@ -1,18 +1,39 @@
 ---
 
-- block:
-  - set_fact:
-      env_python: neuro
+- name: common | Create directory {{ python_env_dir }}
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ group }}'
+  loop:
+    - '{{ python_env_dir }}'
+  become: yes
+  become_method: sudo
 
-  - import_tasks: python_env
-  when: python_env is not defined
-
-- name: nipy | Copy requirements file
+- name: Copy Pipfile
   copy:
-    src: requirements.txt
-    dest: "{{ tmp_install_dir }}/neuro_requirements.txt"
+    src: Pipfile
+    dest: "{{ python_env_dir }}/Pipfile"
 
-- name: nipy | Install requirements
-  pip:
-    requirements: "{{ tmp_install_dir }}/neuro_requirements.txt"
-    virtualenv: "{{ python_env_dir }}"
+- name: Create .envrc file
+  blockinfile:
+    path: "{{ python_env_dir }}/.envrc"
+    mode: 0644
+    owner: '{{ user }}'
+    group: '{{ group }}'
+    create: yes
+    block: |
+      export PIPENV_VENV_IN_PROJECT=./.venv/
+
+- name: Enable the .envrc file
+  command: >
+    direnv allow .
+  args:
+    chdir: "{{ python_env_dir }}"
+
+- name: Install requirements
+  command: >
+    pipenv install
+  args:
+    chdir: "{{ python_env_dir }}"

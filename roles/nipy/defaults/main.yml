@@ -1,0 +1,3 @@
+---
+
+python_env_dir: '{{ home_dir }}/envs/neuro'
