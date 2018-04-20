@@ -2,7 +2,7 @@
 
 - name: neurodebian | Download the NeuroDebian repository sources list file
   get_url:
-    url: http://neuro.debian.net/lists/{{ ansible_distribution_release}}.de-m.full
+    url: http://neuro.debian.net/lists/{{ ansible_distribution_release }}.de-m.full
     dest: '{{ home_dir }}/neurodebian.sources.list'
     mode: 0440
 
@@ -54,16 +54,15 @@
 - name: libraries | Update cache
   apt:
     update_cache: yes
-    cache_valid_time: 3600
   become: yes
   become_method: sudo
 
 - name: libraries | Install packages
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
     allow_unauthenticated: yes
-  with_items:
+  loop:
     - dicomnifti
     - bison
   become: yes
