@@ -40,3 +40,13 @@
     pipenv install --dev
   args:
     chdir: "{{ python_env_dir }}"
+
+- name: Checking where the environment has been created
+  command: >
+    pipenv --venv
+  args:
+    chdir: "{{ python_env_dir }}"
+  register: pipenv_env
+
+- debug:
+    var: pipenv_env
