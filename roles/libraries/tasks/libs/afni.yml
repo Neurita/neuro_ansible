@@ -36,7 +36,7 @@
 - name: '{{ lib_name }} | Install packages 1/2'
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items:
   - tcsh
   - xfonts-base
@@ -54,7 +54,7 @@
 - name: '{{ lib_name }} | Install packages 2/2'
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - libglu1-mesa-dev
     - libglw1-mesa

@@ -22,7 +22,7 @@
 - name: libraries | Install packages
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
     allow_unauthenticated: yes
   with_items:
     - apt-utils

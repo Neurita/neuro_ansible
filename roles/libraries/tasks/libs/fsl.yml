@@ -3,7 +3,7 @@
 - name: fsl | Install APT packages from Neurodebian
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
     allow_unauthenticated: yes
   with_items:
     - fsl-5.0-core

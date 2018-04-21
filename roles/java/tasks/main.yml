@@ -12,7 +12,7 @@
 - name: Java Oracle | Install version 1.8.x
   apt:
     name: oracle-java8-installer
-    state: installed
+    state: present
     force: yes
 
 - name: Java Oracle | Setup JAVA_HOME environment variable
