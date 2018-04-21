@@ -1,7 +1,5 @@
 ---
 
-n_cpus: 1
-
 cleanup_sources: False
 
 local_downloads_dir: '{{ playbook_dir }}/downloads'

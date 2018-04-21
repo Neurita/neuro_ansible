@@ -57,20 +57,20 @@
     - cmake
   become: yes
   become_method: sudo
-  when: not cmake_exists.stat.exists
+  when: overwrite_if_exists or not cmake_exists.stat.exists
 
 - name: cmake | CMake bootstrap, be patient
   command: "{{ install_dir }}/bootstrap --prefix={{ user_local_dir }} --system-curl"
   args:
     chdir: "{{ install_dir }}"
   creates: "{{ install_dir }}/Makefile"
-  when: not cmake_exists.stat.exists
+  when: overwrite_if_exists or not cmake_exists.stat.exists
 
 - name: cmake | Build CMake - make, be patient
   command: make
   args:
     chdir: "{{ install_dir }}"
-  when: not cmake_exists.stat.exists
+  when: overwrite_if_exists or not cmake_exists.stat.exists
 
 - name: cmake | Build CMake - make install
   command: make install
@@ -78,4 +78,4 @@
     chdir: "{{ install_dir }}"
   become: yes
   become_method: sudo
-  when: cmake_exists.stat.exists == False
+  when: overwrite_if_exists or not cmake_exists.stat.exists

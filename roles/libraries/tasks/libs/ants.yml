@@ -54,13 +54,13 @@
   environment:
     CC: "{{ default_gcc }}"
     CXX: "{{ default_gpp }}"
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or lib_exists.stat.exists == False
 
 - name: '{{ lib_name }} | Build'
   command: "make"
   args:
     chdir: "{{ build_dir }}"
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or lib_exists.stat.exists == False
 
 - name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 1/2'
   lineinfile:
@@ -86,4 +86,4 @@
     chdir: "{{ build_dir }}/ANTS-build"
   become: yes
   become_method: sudo
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or lib_exists.stat.exists == False

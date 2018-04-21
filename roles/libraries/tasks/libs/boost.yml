@@ -49,10 +49,10 @@
   command: "{{ install_dir }}/b2 install"
   args:
     chdir: "{{ install_dir }}"
-  when: boost_exists.stat.exists == False
+  when: overwrite_if_exists or boost_exists.stat.exists == False
 
 - name: boost | Build with bjam, be patient
   command: "{{ install_dir }}/bjam --prefix={{ user_local_dir }} install"
   args:
     chdir: "{{ install_dir }}"
-  when: boost_exists.stat.exists == False
+  when: overwrite_if_exists or boost_exists.stat.exists == False

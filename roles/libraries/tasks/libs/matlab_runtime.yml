@@ -28,7 +28,7 @@
   get_url:
     url: "{{ pkg_url }}"
     dest: "{{ pkg_path }}"
-  when: not lib_install_path.stat.exists
+  when: overwrite_if_exists or not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Prepare installer config'
   blockinfile:
@@ -42,7 +42,7 @@
       agreeToLicense=yes
       outputFile=/tmp/matlabinstall_log
       mode=silent
-  when: not lib_install_path.stat.exists
+  when: overwrite_if_exists or not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Unzip package'
   unarchive:
@@ -55,7 +55,7 @@
   command: >
     {{ unarchive_dir }}/install
     -inputFile {{ unarchive_dir }}/mcr_options.txt
-  when: not lib_install_path.stat.exists
+  when: overwrite_if_exists or not lib_install_path.stat.exists
 
 - name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 1/2'
   lineinfile:

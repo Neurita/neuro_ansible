@@ -52,3 +52,4 @@
     - gzip
     - bzip2
     - direnv
+    - rsync

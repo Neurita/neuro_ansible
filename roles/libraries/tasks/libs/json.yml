@@ -44,7 +44,7 @@
   command: "make -j {{ n_cpus }}"
   args:
     chdir: "{{ build_dir }}"
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or not lib_exists.stat.exists
 
 - name: json | Install
   command: "make install"
@@ -52,7 +52,7 @@
     chdir: "{{ build_dir }}"
   become: yes
   become_method: sudo
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or not lib_exists.stat.exists
 
 - name: '{{ lib_name }} | Remove {{ build_dir }} directory'
   file:

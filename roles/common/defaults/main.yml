@@ -1,6 +1,6 @@
 ---
 
-soft_dir:           "{{ home_dir }}/Software"
+soft_dir:           "{{ home_dir }}/software"
 tmp_install_dir:    "{{ home_dir }}/tmp"
 projects_dir:       "{{ home_dir }}/projects"
 neuro_projects_dir: "{{ home_dir }}/projects/neuro"

@@ -18,14 +18,14 @@
   get_url:
     url: "{{ pkg_url }}"
     dest: "{{ pkg_path }}"
-  when: my_package_check_deb.rc == 1
+  when: overwrite_if_exists or not my_package_check_deb.rc
 
 - name: '{{ pkg_name }} | Install 1/2'
   apt:
     deb: "{{ pkg_path }}"
   become: true
   become_method: sudo
-  when: my_package_check_deb.rc == 1
+  when: overwrite_if_exists or not my_package_check_deb.rc
 
 - name: '{{ pkg_name }} | Install 2/2'
   apt:

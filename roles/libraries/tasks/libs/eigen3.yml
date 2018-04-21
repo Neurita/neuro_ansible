@@ -49,7 +49,7 @@
   command: "make -j {{ n_cpus }}"
   args:
     chdir: "{{ build_dir }}"
-  when: eigen3_exists.stat.exists == False
+  when: overwrite_if_exists or not eigen3_exists.stat.exists
 
 - name: eigen3 | Install
   command: "make install"
@@ -57,7 +57,7 @@
     chdir: "{{ build_dir }}"
   become: yes
   become_method: sudo
-  when: eigen3_exists.stat.exists == False
+  when: overwrite_if_exists or not eigen3_exists.stat.exists
 
 - name: 'eigen3 | Remove {{ build_dir }} directory'
   file:
