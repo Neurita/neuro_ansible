@@ -8,7 +8,7 @@
     name: "{{ item }}"
     state: latest
     executable: "{{ sys_python_pip }}"
-  loop:
+  with_items:
     - pip
     - setuptools
     - wheel
