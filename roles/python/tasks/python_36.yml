@@ -80,11 +80,11 @@
     dest: "{{ download_dir }}"
     checksum: "{{ tarball_hash }}"
 
-- name: '{{ lib_name }} | Unpack'
-  command: >
-    tar xvf {{ tarball_path }}
-  args:
-    chdir: "{{ download_dir }}"
+- name: '{{ lib_name }} | Unpacking {{ tarball_path }}'
+  unarchive:
+    src: "{{ tarball_path }}"
+    dest: "{{ download_dir }}"
+    remote_src: yes
   creates: "{{ unarchive_dir }}/Makefile"
 
 - name: '{{ lib_name }} | Check if is in the system'
@@ -97,13 +97,13 @@
     ./configure --prefix={{ user_local_dir }} --enable-optimizations
   args:
     chdir: "{{ unarchive_dir }}"
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or not lib_exists.stat.exists
 
 - name: '{{ lib_name }} | Build'
   command: "make -j {{ n_cpus }}"
   args:
     chdir: "{{ unarchive_dir }}"
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or not lib_exists.stat.exists
 
 - name: '{{ lib_name }} | Install'
   command: "make install"
@@ -111,7 +111,7 @@
     chdir: "{{ unarchive_dir }}"
   become: yes
   become_method: sudo
-  when: lib_exists.stat.exists == False
+  when: overwrite_if_exists or not lib_exists.stat.exists
 
 - name: '{{ lib_name }} | Remove {{ unarchive_dir }} directory'
   file:
