@@ -35,7 +35,7 @@
 
 - name: '{{ lib_name }} | Install packages 1/2'
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: present
   with_items:
   - tcsh
@@ -53,7 +53,7 @@
 
 - name: '{{ lib_name }} | Install packages 2/2'
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: present
   with_items:
     - libglu1-mesa-dev

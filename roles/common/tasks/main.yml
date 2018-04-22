@@ -33,12 +33,10 @@
   apt:
     update_cache: yes
     upgrade: yes
-    cache_valid_time: 3600
-    allow_unauthenticated: yes
 
 - name: Package | Install lists packages
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: present
   with_items:
     - build-essential
@@ -53,3 +51,4 @@
     - bzip2
     - direnv
     - rsync
+    - git

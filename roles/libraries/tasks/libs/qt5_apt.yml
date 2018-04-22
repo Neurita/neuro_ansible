@@ -3,7 +3,7 @@
 # TODO?: Use the Qt5 packages from APT
 - name: development | Install lists packages
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: present
   with_items:
     - libqwt-qt5-dev

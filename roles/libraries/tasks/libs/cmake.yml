@@ -14,7 +14,7 @@
 
 - name: cmake | Install build dependencies
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: build-dep
   with_items:
     - cmake
@@ -51,7 +51,7 @@
 
 - name: cmake | Install build dependencies
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: build-dep
   with_items:
     - cmake

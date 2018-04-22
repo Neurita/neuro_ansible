@@ -2,7 +2,7 @@
 
 - name: fsl | Install APT packages from Neurodebian
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: present
     allow_unauthenticated: yes
   with_items:
