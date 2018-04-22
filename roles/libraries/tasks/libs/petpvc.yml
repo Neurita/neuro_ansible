@@ -1,7 +1,7 @@
 ---
 
 - set_fact:
-    lib_version: "v1.2.1"
+    lib_version: "v1.2.2"
     lib_name: 'petpvc'
 
 - set_fact:
