@@ -1,28 +1,11 @@
 ---
 
-# ENV DCM2NIIX_VERSION v1.0.20171017
-# ENV DCM2NIIX_GIT
-
-# WORKDIR $SOFT
-# RUN \
-#     mkdir dcm2niix && \
-#     cd dcm2niix && \
-#     git clone $DCM2NIIX_GIT -b $DCM2NIIX_VERSION DCM2NIIX && \
-#     mkdir build && \
-#     cd build && \
-#     cmake -DCMAKE_BUILD_TYPE=Release \
-#           ../DCM2NIIX && \
-#     make -j $N_CPUS && \
-#     make install && \
-#     cd ../.. && \
-#     rm -rf dcm2niix
-
 - set_fact:
-    lib_version: "v1.0.20171215"
+    lib_version: "v1.0.20180328"
     lib_name: 'dcm2niix'
 
 - set_fact:
-    git_url:   "https://github.com/neurolabusc/dcm2niix.git"
+    git_url:   "https://github.com/rordenlab/dcm2niix.git"
     root_dir:  "{{ soft_dir }}/{{ lib_name }}"
     git_dir:   "{{ soft_dir }}/{{ lib_name }}/{{ lib_name }}"
     build_dir: "{{ soft_dir }}/{{ lib_name }}/build"
