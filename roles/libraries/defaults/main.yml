@@ -6,7 +6,8 @@ local_downloads_dir: '{{ playbook_dir }}/downloads'
 
 ants_build_dir: "{{ soft_dir }}/ants/build"
 
-default_gcc: "gcc-6"
-default_gpp: "g++-6"
+gcc_apt_version: 5
+default_gcc: "gcc-{{ gcc_apt_version }}"
+default_gpp: "g++-{{ gcc_apt_version }}"
 
 target_bashrc_file: '{{ neuro_bash_file }}'

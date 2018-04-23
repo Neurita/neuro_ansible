@@ -3,19 +3,23 @@
 # - name: libraries | Make local downloads dir in {{ local_downloads_dir }}
 #   local_action: path dest="{{ local_downloads_dir }}" state=directory
 
-- name: libraries | apt_repository
-  command: >
-      add-apt-repository {{ item }}
-  with_items:
-    - restricted
-    - universe
+# - name: Update CA certificates
+#   command: >
+#     apt-get install --reinstall ca-certificates
+#     update-ca-certificates
+#   become: yes
+#   become_method: sudo
+
+- apt_repository:
+    repo: deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates main restricted
+    state: present
   become: yes
   become_method: sudo
 
-- name: libraries | Update cache
+- name: APT | Update cache
   apt:
     update_cache: yes
-    cache_valid_time: 3600
+    upgrade: yes
   become: yes
   become_method: sudo
 
@@ -26,8 +30,8 @@
     allow_unauthenticated: yes
   with_items:
     - apt-utils
-    - gcc-6
-    - g++-6
+    - gcc-{{ gcc_apt_version }}
+    - g++-{{ gcc_apt_version }}
     - locales
     - libjpeg62
     - libxml2-dev
