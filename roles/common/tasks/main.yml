@@ -52,3 +52,11 @@
     - direnv
     - rsync
     - git
+
+- name: direnv | Setup in {{ target_bashrc_file }}
+  lineinfile:
+    path: '{{ target_bashrc_file }}'
+    line: 'eval "$(direnv hook bash)"'
+    follow: yes
+    create: yes
+  tags: rc
