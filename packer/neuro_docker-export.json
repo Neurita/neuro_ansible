@@ -1,0 +1,50 @@
+{
+  "variables": {
+    "ansible_host": "docker",
+    "ansible_connection": "docker"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:16.04",
+      "export_path": "image.tar",
+      "run_command": [
+        "-d",
+        "-i",
+        "-t",
+        "--name",
+        "neuro_docker",
+        "{{.Image}}",
+        "/bin/bash"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt update",
+        "apt install python3 locales rsync -yq"
+      ]
+    },
+    {
+      "type": "ansible",
+      "user": "root",
+      "playbook_file": "playbook.yml",
+      "host_alias": "neuro_docker",
+      "groups": ["docker_container"],
+      "extra_arguments": ["-vv"]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-import",
+      "repository": "neurita/neuro_docker",
+      "tag": "0.1"
+    },
+    {
+      "type": "compress",
+      "output": "neuro_docker.tar.lz4"
+    }
+  ]
+}

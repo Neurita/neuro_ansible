@@ -34,3 +34,25 @@ For that, do:
 ```bash
 vagrant up
 ```
+
+## Docker image
+
+It is possible to create a Docker image with Ubuntu provisioned with the neuroimaging tools through this project.
+For that to work you need to install [Packer](https://www.packer.io/) and run:
+
+```bash
+make docker-image
+```
+
+This command will export a file name `neuro_docker.tar.lz4` which is a compressed docker image that can be imported.
+
+
+## Docker run
+
+Another option is to use the command:
+
+```bash
+make docker-run
+```
+
+which will provision a new local running container.

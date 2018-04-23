@@ -8,3 +8,6 @@ bin_dir:            "{{ home_dir }}/bin"
 
 user_local_dir:  "/opt"
 local_bin_dir:   "{{ user_local_dir }}/bin"
+
+default_bash_file: "{{ home_dir }}/.bash.d/init.bash"
+target_bashrc_file: "{{ neuro_bash_file | default(default_bash_file) }}"

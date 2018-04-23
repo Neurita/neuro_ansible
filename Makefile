@@ -12,3 +12,9 @@ clean-ansible:
 clean-env:
 	pipenv --rm
 	rm Pipfile.lock
+
+docker-image:
+	pipenv run packer build packer/neuro_docker-export.json
+
+docker-run:
+	pipenv run packer build packer/neuro_docker-run.json

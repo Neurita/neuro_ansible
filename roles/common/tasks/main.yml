@@ -40,6 +40,7 @@
     state: present
   with_items:
     - build-essential
+    - software-properties-common
     - mesa-common-dev
     - libglu1-mesa-dev
     - curl

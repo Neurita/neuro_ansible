@@ -1,0 +1,8 @@
+---
+
+user: 'root'
+group: 'root'
+home_dir: '/root'
+
+ansible_become: false
+ansible_python_interpreter: python3

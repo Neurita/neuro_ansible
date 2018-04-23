@@ -7,7 +7,14 @@
     update_cache: yes
 
 - name: Java Oracle | Automatically select the Oracle License
-  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  shell: >
+    echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  when: "user != 'root'"
+
+- name: Java Oracle | Automatically select the Oracle License
+  shell: >
+    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+  when: "user == 'root'"
 
 - name: Java Oracle | Install version 1.8.x
   apt:
