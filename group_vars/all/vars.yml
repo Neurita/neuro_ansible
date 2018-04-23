@@ -4,9 +4,10 @@ user: '{{ ansible_user_id }}'
 group: '{{ user }}'
 
 home_dir: "{{ ansible_env.HOME }}"
-bashrc_file: '{{ home_dir }}/.bashrc'
 
 locale: en_US.UTF-8
 overwrite_if_exists: no
 
 n_cpus: 1
+
+compile_python: no

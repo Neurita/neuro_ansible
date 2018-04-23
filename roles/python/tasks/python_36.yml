@@ -20,9 +20,22 @@
     unarchive_dir: "{{ soft_dir }}/{{ lib_name }}/{{ filename_no_extension }}"
     check_if_exists: "{{ user_local_dir }}/lib/python{{ lib_version }}"
 
+- apt_repository:
+    repo: deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} main restricted
+    state: present
+  become: yes
+  become_method: sudo
+
+- name: APT | Update cache, be patient
+  apt:
+    update_cache: yes
+    upgrade: yes
+  become: yes
+  become_method: sudo
+
 - name: '{{ lib_name }} | Install build dependencies'
   apt:
-    pkg: "{{ item }}"
+    name: "{{ item }}"
     state: build-dep
   with_items:
     - python3
