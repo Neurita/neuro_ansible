@@ -1,12 +1,5 @@
 ---
 
-#ENV CAMINO_GIT git://git.code.sf.net/p/camino/code
-#
-# WORKDIR $SOFT
-# RUN \
-#     git clone $CAMINO_GIT camino && \
-#     echo "addpath \${SOFT}/camino/bin" >> $BASHRC
-
 - set_fact:
     lib_version: "master"
     lib_name: 'camino'

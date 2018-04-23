@@ -1,19 +1,4 @@
 ---
-# ENV AFNI_URL https://afni.nimh.nih.gov/pub/dist/bin/linux_fedora_21_64/@update.afni.binaries
-#
-# #-------------------------------------------------------------------------------
-# # AFNI
-# # https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/install_instructs/steps_linux_ubuntu.html#install-steps-linux-ubuntu
-# #-------------------------------------------------------------------------------
-# WORKDIR $SOFT
-# RUN \
-#     curl -O $AFNI_URL && \
-#     chsh -s /usr/bin/tcsh && \
-#     tcsh @update.afni.binaries -package linux_openmp_64 -do_extras && \
-#     chsh -s /bin/bash && \
-#     cp $HOME/abin/AFNI.afnirc $HOME/.afnirc && \
-#     echo "addpath \$HOME/abin" >> $BASHRC && \
-#     chown -R $BASICUSER $HOME/abin
 
 - import_tasks: libxp.yml
   tags: libxp
