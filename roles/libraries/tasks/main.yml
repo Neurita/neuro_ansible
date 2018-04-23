@@ -78,8 +78,8 @@
   tags: dcm2niix
 
 - block:
-  - import_tasks: libs/vtk.yml
-    tags: vtk
+  # - import_tasks: libs/vtk.yml
+  #   tags: vtk
 
   - import_tasks: libs/ants.yml
     tags: ants
@@ -87,8 +87,8 @@
   - import_tasks: libs/petpvc.yml
     tags: petpvc
 
-  - import_tasks: libs/simpleitk.yml
-    tags: simpleitk
+  # - import_tasks: libs/simpleitk.yml
+  #   tags: simpleitk
 
   - name: '{{ lib_name }} | Remove {{ ants_build_dir }} directory'
     file:
@@ -98,7 +98,6 @@
     become_method: sudo
     when: cleanup_sources
     tags: cleanup
-
   tags: itk
 
 # - import_tasks: libs/boost.yml
