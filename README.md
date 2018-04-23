@@ -1,4 +1,4 @@
-# neuro_deploy
+# Neuro-Ansible
 
 This Ansible project is to develop and deploy the Neuroimaging tools for Neuro-Pypes.
 
