@@ -51,19 +51,19 @@
     path: "{{ home_dir }}/NeuroDebian.Archive.Key.Public.asc"
     state: absent
 
-- name: libraries | Update cache
+- name: Update APT cache
   apt:
     update_cache: yes
   become: yes
   become_method: sudo
 
-- name: libraries | Install packages
+- name: Install APT packages
   apt:
-    name: "{{ item }}"
+    name:
+    - dicomnifti
+    - bison
     state: present
     allow_unauthenticated: yes
   with_items:
-    - dicomnifti
-    - bison
   become: yes
   become_method: sudo

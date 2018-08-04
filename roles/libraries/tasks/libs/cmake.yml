@@ -42,10 +42,8 @@
 
 - name: cmake | Install build dependencies
   apt:
-    name: "{{ item }}"
+    name: cmake
     state: build-dep
-  with_items:
-    - cmake
   become: yes
   become_method: sudo
   when: overwrite_if_exists or not cmake_exists.stat.exists

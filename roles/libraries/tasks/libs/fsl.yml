@@ -2,11 +2,9 @@
 
 - name: fsl | Install APT packages from Neurodebian
   apt:
-    name: "{{ item }}"
+    name: fsl-5.0-core
     state: present
     allow_unauthenticated: yes
-  with_items:
-    - fsl-5.0-core
   become: yes
   become_method: sudo
 

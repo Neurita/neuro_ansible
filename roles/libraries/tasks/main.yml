@@ -25,10 +25,7 @@
 
 - name: libraries | Install packages
   apt:
-    name: "{{ item }}"
-    state: present
-    allow_unauthenticated: yes
-  with_items:
+    name:
     - apt-utils
     - gcc-{{ gcc_apt_version }}
     - g++-{{ gcc_apt_version }}
@@ -38,6 +35,8 @@
     - libxslt1-dev
     - xdot
     - python3-dev
+    state: present
+    allow_unauthenticated: yes
   become: yes
   become_method: sudo
 

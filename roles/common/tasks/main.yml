@@ -29,16 +29,11 @@
     create: yes
   tags: rc
 
-- name: APT | Update cache, be patient
+- name: Package | Install lists packages
   apt:
     update_cache: yes
     upgrade: yes
-
-- name: Package | Install lists packages
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name:
     - build-essential
     - software-properties-common
     - mesa-common-dev
@@ -53,6 +48,7 @@
     - direnv
     - rsync
     - git
+    state: present
 
 - name: direnv | Setup in {{ target_bashrc_file }}
   lineinfile:

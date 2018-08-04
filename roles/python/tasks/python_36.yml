@@ -1,4 +1,5 @@
 ---
+# TODO: replace this for pyenv
 
 - name: Set variables
   set_fact:
@@ -64,9 +65,7 @@
 
 - name: '{{ lib_name }} | Install other build dependencies'
   apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name:
     - zlib1g-dev
     - libreadline-dev
     - libsqlite3-dev
@@ -77,6 +76,7 @@
     - liblzma-dev
     - libgdbm-dev
     - libncurses5-dev
+    state: present
   become: yes
   become_method: sudo
 

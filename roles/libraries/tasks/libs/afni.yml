@@ -20,19 +20,18 @@
 
 - name: '{{ lib_name }} | Install packages 1/2'
   apt:
-    name: "{{ item }}"
+    name:
+    - tcsh
+    - xfonts-base
+    - python-qt4
+    - gsl-bin
+    - netpbm
+    - libjpeg62
+    - xvfb
+    - xterm
+    - vim
+    - curl
     state: present
-  with_items:
-  - tcsh
-  - xfonts-base
-  - python-qt4
-  - gsl-bin
-  - netpbm
-  - libjpeg62
-  - xvfb
-  - xterm
-  - vim
-  - curl
   become: yes
   become_method: sudo
 

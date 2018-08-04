@@ -35,11 +35,10 @@
 
 - name: '{{ lib_name }} | Install build dependencies'
   apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name:
     - python3-dev
     - bison
+    state: present
   become: yes
   become_method: sudo
   when: overwrite_if_exists or not lib_exists.stat.exists
