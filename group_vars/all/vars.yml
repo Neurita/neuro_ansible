@@ -1,9 +1,10 @@
 ---
 
-user: '{{ ansible_user_id }}'
-group: '{{ user }}'
+ansible_python_interpreter: /usr/bin/python3
+user: "{{ ansible_user }}"
+group: "{{ ansible_user }}"
 
-home_dir: "{{ ansible_env.HOME }}"
+home_dir: '/home/{{ user }}'
 
 locale: en_US.UTF-8
 overwrite_if_exists: no
