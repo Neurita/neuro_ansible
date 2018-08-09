@@ -11,8 +11,13 @@
 #   become_method: sudo
 
 - apt_repository:
-    repo: deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates main restricted
+    repo: '{{ item }}'
     state: present
+  with_items:
+    - deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates main restricted
+    - deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates universe
+    - deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} main restricted
+    - deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} universe
   become: yes
   become_method: sudo
 

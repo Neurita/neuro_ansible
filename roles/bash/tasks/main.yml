@@ -1,8 +1,8 @@
 ---
 
-- synchronize:
-    src: .scripts
-    dest: '{{ home_dir }}'
+# - synchronize:
+#     src: .scripts
+#     dest: '{{ home_dir }}'
 
 - name: bash | Add block {{ bashrc_file }}
   blockinfile:
@@ -23,4 +23,4 @@
     dest: "{{ neuro_bash_file }}"
     owner: '{{ user }}'
     group: '{{ group }}'
-    mode: u=rwx,g=rx,o=rx
+    mode: 0755

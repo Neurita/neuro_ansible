@@ -4,19 +4,21 @@
   tags: [build_python, python]
   when: 'compile_python'
 
-- name: Package | Install lists packages
+- name: Install Python APT packages
   apt:
     name:
     - python3
     - python3-pip
     state: present
   when: 'not compile_python'
+  become: yes
+  become_method: sudo
 
 - name: Update base modules
   pip:
     name: "{{ item }}"
     state: latest
-    executable: "{{ sys_python_pip }}"
+    executable: pip3
   with_items:
     - pip
     - setuptools
