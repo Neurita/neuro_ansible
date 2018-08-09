@@ -1,8 +1,9 @@
 ---
 
-# - synchronize:
-#     src: .scripts
-#     dest: '{{ home_dir }}'
+- synchronize:
+    src: .scripts
+    dest: '{{ home_dir }}'
+    use_ssh_args: yes
 
 - name: bash | Add block {{ bashrc_file }}
   blockinfile:
