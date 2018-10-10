@@ -1,8 +1,4 @@
 {
-  "variables": {
-    "ansible_host": "docker",
-    "ansible_connection": "docker"
-  },
   "builders": [
     {
       "type": "docker",
@@ -31,9 +27,9 @@
       "type": "ansible",
       "user": "root",
       "playbook_file": "playbook.yml",
-      "host_alias": "neuro_docker",
+      "inventory_file": "docker_hosts.yml",
       "groups": ["docker_container"],
-      "extra_arguments": ["-vv"]
+      "extra_arguments": ["-v"]
     }
   ],
   "post-processors": [

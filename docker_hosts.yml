@@ -1,0 +1,7 @@
+---
+
+docker_container:
+  hosts:
+    neuro_docker:
+      ansible_host: neuro_docker
+      ansible_connection: docker

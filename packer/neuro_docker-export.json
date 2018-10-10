@@ -1,8 +1,4 @@
 {
-  "variables": {
-    "ansible_host": "docker",
-    "ansible_connection": "docker"
-  },
   "builders": [
     {
       "type": "docker",
