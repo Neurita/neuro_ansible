@@ -10,5 +10,3 @@ locale: en_US.UTF-8
 overwrite_if_exists: no
 
 n_cpus: 1
-
-compile_python: no

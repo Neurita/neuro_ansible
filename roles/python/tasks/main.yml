@@ -1,12 +1,14 @@
 ---
 
+- import_tasks: pyenv.yml
+  tags: [build_python, python]
+
 - name: Install Python APT packages
   apt:
     name:
     - python3.6
     - python3-pip
     state: present
-  when: 'not compile_python'
   become: yes
   become_method: sudo
 
