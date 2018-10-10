@@ -5,7 +5,7 @@
 
 - set_fact:
     lib_name: 'spm12'
-    pkg_url: "http://www.fil.ion.ucl.ac.uk/spm/download/restricted/utopia/dev/spm12_latest_Linux_R2018a.zip"
+    pkg_url: "https://www.fil.ion.ucl.ac.uk/spm/download/restricted/utopia/dev/spm12_latest_Linux_R2018b.zip"
 
 - set_fact:
     unarchive_dir: "{{ soft_dir }}"
