@@ -6,7 +6,7 @@
   "builders": [
     {
       "type": "docker",
-      "image": "ubuntu:16.04",
+      "image": "ubuntu:18.04",
       "export_path": "image.tar",
       "run_command": [
         "-d",
