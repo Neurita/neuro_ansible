@@ -1,5 +1,7 @@
 ---
 
-- name: pyenv | Install pyenv
-  command: >
-    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+#- name: pyenv | Install pyenv
+#  command: >
+#    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+#  args:
+#    warn: False
