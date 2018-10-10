@@ -52,7 +52,7 @@
   command: "{{ install_dir }}/bootstrap --prefix={{ user_local_dir }} --system-curl"
   args:
     chdir: "{{ install_dir }}"
-  creates: "{{ install_dir }}/Makefile"
+    creates: "{{ install_dir }}/Makefile"
   when: overwrite_if_exists or not cmake_exists.stat.exists
 
 - name: cmake | Build CMake - make, be patient
