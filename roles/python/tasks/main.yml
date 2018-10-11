@@ -1,26 +1,13 @@
 ---
 
-- import_tasks: pyenv.yml
-  tags: [build_python, python]
-
-- name: Install Python APT packages
-  apt:
-    name:
-    - python3.6
-    - python3-pip
-    state: present
-  become: yes
-  become_method: sudo
-
 - name: Update base modules
   pip:
-    name: "{{ item }}"
-    state: latest
-    executable: pip3
-  with_items:
+    name:
     - pip
     - setuptools
     - wheel
     - pipenv
+    state: latest
+    executable: pip3
   become: yes
   become_method: sudo
