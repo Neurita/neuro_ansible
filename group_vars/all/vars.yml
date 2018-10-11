@@ -1,5 +1,6 @@
 ---
 
+ansible_shell_executable: /bin/bash
 ansible_python_interpreter: /usr/bin/python3
 user: "{{ ansible_user }}"
 group: "{{ ansible_user }}"

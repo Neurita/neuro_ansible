@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "container_name": "neuro_docker"
+  },
   "builders": [
     {
       "type": "docker",
@@ -9,7 +12,7 @@
         "-i",
         "-t",
         "--name",
-        "neuro_docker",
+        "{{user `container_name`}}",
         "{{.Image}}",
         "/bin/bash"
       ]
@@ -18,24 +21,20 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": [
-        "apt update",
-        "apt install python3 locales rsync -yq"
-      ]
+      "script": "packer/bootstrap.sh"
     },
     {
       "type": "ansible",
       "user": "root",
       "playbook_file": "playbook.yml",
-      "host_alias": "neuro_docker",
-      "groups": ["docker_container"],
-      "extra_arguments": ["-vv"]
+      "inventory_file": "docker_hosts.yml",
+      "groups": ["docker_container"]
     }
   ],
   "post-processors": [
     {
       "type": "docker-import",
-      "repository": "neurita/neuro_docker",
+      "repository": "neurita/{{user `container_name`}}",
       "tag": "0.1"
     },
     {
