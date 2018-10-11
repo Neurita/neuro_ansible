@@ -37,13 +37,12 @@
 
 - name: '{{ lib_name }} | Install packages 2/2'
   apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name:
     - libglu1-mesa-dev
     - libglw1-mesa
     - libxm4
     - build-essential
+    state: present
   become: yes
   become_method: sudo
 
