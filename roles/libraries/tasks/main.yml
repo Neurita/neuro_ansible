@@ -67,6 +67,9 @@
 - import_tasks: neurodebian.yml
   tags: neurodebian
 
+- import_tasks: libs/apt.yml
+  tags: [cmake]
+
 - import_tasks: libs/fsl.yml
   tags: fsl
 
@@ -79,8 +82,8 @@
 - import_tasks: libs/spm_mcr.yml
   tags: spm_mcr
 
-- import_tasks: libs/cmake.yml
-  tags: cmake
+#- import_tasks: libs/cmake.yml
+#  tags: cmake
 
 - import_tasks: libs/dcm2niix.yml
   tags: dcm2niix

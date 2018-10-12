@@ -1,0 +1,11 @@
+---
+
+- name: Install more APT packages
+  apt:
+    name:
+    - cmake
+    update_cache: yes
+    state: present
+    allow_unauthenticated: yes
+  become: yes
+  become_method: sudo
