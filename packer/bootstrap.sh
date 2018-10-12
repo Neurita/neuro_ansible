@@ -9,6 +9,8 @@ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer 
 echo 'export PATH="/root/.pyenv/bin:$PATH"' >> $HOME/.bash_profile
 echo 'eval "$(pyenv init -)"' >> $HOME/.bash_profile
 echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bash_profile
+echo "export LC_ALL=C.UTF-8" >> $HOME/.bash_profile
+echo "export LANG=C.UTF-8" >> $HOME/.bash_profile
 
 export PATH="/root/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
