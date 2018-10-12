@@ -45,7 +45,7 @@
 
 - name: '{{ lib_name }} | Run cmake'
   command: >
-    {{ user_local_dir }}/bin/cmake
+    cmake
     -DCMAKE_BUILD_TYPE=Release
     -DPYTHON_EXECUTABLE=/usr/bin/python3
     -DPYTHON_INCLUDE_DIR=/usr/include/python3.6

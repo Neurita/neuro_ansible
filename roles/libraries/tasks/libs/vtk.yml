@@ -56,7 +56,7 @@
 
 - name: '{{ lib_name }} | Run cmake'
   command: >
-    {{ user_local_dir }}/bin/cmake
+    cmake
     -DCMAKE_BUILD_TYPE=Release
     -VTK_WRAP_PYTHON:BOOL=ON
     -DPYTHON_EXECUTABLE=/usr/bin/python3.6

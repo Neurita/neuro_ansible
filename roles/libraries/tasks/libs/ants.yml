@@ -38,7 +38,7 @@
 
 - name: '{{ lib_name }} | Run cmake'
   command: >
-    {{ user_local_dir }}/bin/cmake
+    cmake
     -DSuperBuild_ANTS_USE_GIT_PROTOCOL:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
     -DUSE_VTK:BOOL=OFF

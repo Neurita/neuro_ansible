@@ -35,7 +35,7 @@
 
 - name: '{{ lib_name }} | Run cmake'
   command: >
-    {{ user_local_dir }}/bin/cmake
+    cmake
     -DCMAKE_BUILD_TYPE=Release
     -DITK_DIR={{ ants_build_dir }}/ITKv4-build
     -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}

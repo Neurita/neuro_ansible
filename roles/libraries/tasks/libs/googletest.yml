@@ -33,7 +33,7 @@
 # It is not recommended to install GoogleTest, include the sources in your CMake project
 # - name: googletest | Run cmake
 #   command: >
-#     {{ user_local_dir }}/bin/cmake
+#     cmake
 #     -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }}
 #     -Dgtest_build_samples=ON
 #     -Dgtest_build_tests=ON

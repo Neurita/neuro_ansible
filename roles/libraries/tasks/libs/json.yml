@@ -35,7 +35,7 @@
   register: lib_exists
 
 - name: json | Run cmake
-  command: "{{ user_local_dir }}/bin/cmake -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }} {{ git_dir }}"
+  command: "cmake -DCMAKE_INSTALL_PREFIX:PATH={{ user_local_dir }} {{ git_dir }}"
   args:
     chdir: "{{ build_dir }}"
     creates: "{{ build_dir }}/Makefile"
