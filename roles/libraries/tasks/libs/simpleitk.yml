@@ -1,5 +1,15 @@
 ---
 
+- name: Install dependency APT packages
+  apt:
+    name:
+    - bison
+    update_cache: yes
+    state: present
+    allow_unauthenticated: yes
+  become: yes
+  become_method: sudo
+
 - set_fact:
     lib_version: "v1.1.0"
     lib_name: 'simpleitk'

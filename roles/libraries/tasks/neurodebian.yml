@@ -49,14 +49,3 @@
       - item != '' and not item.startswith('#')
     become: yes
     become_method: sudo
-
-- name: Install APT packages
-  apt:
-    name:
-    - dicomnifti
-    - bison
-    update_cache: yes
-    state: present
-    allow_unauthenticated: yes
-  become: yes
-  become_method: sudo

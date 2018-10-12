@@ -1,9 +1,11 @@
 ---
 
-- name: Install more APT packages
+- name: Install tools from apt
   apt:
     name:
     - cmake
+    - dcm2niix
+    - dicomnifti
     update_cache: yes
     state: present
     allow_unauthenticated: yes
