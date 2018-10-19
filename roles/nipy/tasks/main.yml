@@ -47,8 +47,8 @@
   args:
     chdir: "{{ python_env_dir }}"
   environment:
-    LC_ALL=C.UTF-8
-    LANG=C.UTF-8
+    LC_ALL: C.UTF-8
+    LANG: C.UTF-8
   register: pipenv_env
 
 - debug:
