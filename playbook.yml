@@ -7,7 +7,7 @@
     - { role: bash, tags: [rc, bash, common] }
     - { role: common, become: yes, become_method: sudo, tags: common }
     - { role: python, tags: python }
+    - { role: neuro_pypes, tags: pypes }
+    # - { role: nipy, tags: nipy }
     - { role: java, become: yes, become_method: sudo, tags: common }
     - { role: libraries, tags: libs }
-    # - { role: nipy, tags: nipy }
-    - { role: neuro_pypes, tags: pypes }
