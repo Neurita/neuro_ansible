@@ -1,0 +1,22 @@
+---
+
+- name: std_brains | Set variables
+  set_fact:
+    git_url: "https://github.com/Neurita/std_brains.git"
+    git_dir: "{{ ansible_env.HOME }}/projects/std_brains"
+    git_tag: "master"
+
+- name: std_brains | Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ git_dir }}"
+
+- name: std_brains | Clone repository
+  git:
+    repo: "{{ git_url }}"
+    accept_hostkey: yes
+    dest: "{{ git_dir }}"
+    recursive: no
+    version: "{{ git_tag }}"

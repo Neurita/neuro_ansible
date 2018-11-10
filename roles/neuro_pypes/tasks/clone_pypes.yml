@@ -1,0 +1,26 @@
+---
+
+- name: Set variables
+  set_fact:
+    git_url: "https://github.com/Neurita/pypes.git"
+    git_dir: "{{ ansible_env.HOME }}/projects/neuro_pypes"
+    git_tag: "master"
+
+- name: pypes | Set variables
+  set_fact:
+    neuro_pypes_dir: "{{ git_dir }}"
+
+- name: pypes | Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ git_dir }}"
+
+- name: pypes | Clone repository
+  git:
+    repo: "{{ git_url }}"
+    dest: "{{ git_dir }}"
+    version: "{{ git_tag }}"
+    recursive: no
+    accept_hostkey: yes

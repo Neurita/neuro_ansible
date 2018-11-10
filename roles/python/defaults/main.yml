@@ -1,6 +1,3 @@
 ---
 
-user_local_dir: /usr/local
-
-sys_python: python3
-sys_python_pip: pip3
+  python_version: 3.6.7

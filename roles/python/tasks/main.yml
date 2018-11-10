@@ -1,13 +1,7 @@
 ---
 
-- name: Update base modules
-  pip:
-    name:
-    - pip
-    - setuptools
-    - wheel
-    - pipenv
-    state: latest
-    executable: pip3
-  become: yes
-  become_method: sudo
+- include_tasks: build_dependencies.yml
+  tags: pyenv
+
+- include_tasks: pyenv.yml
+  tags: pyenv

@@ -1,3 +1,8 @@
+image-name = "neurita/neuro_docker"
+version = 0.1
+# version-string := $(shell grep '__version__ = '  $(project-name)/version.py)
+# version := $(subst __version__ = ,,$(version-string))
+
 install:
 	pipenv install --skip-lock
 
@@ -18,3 +23,4 @@ docker-image:
 
 docker-run:
 	pipenv run packer build packer/neuro_docker-run.json
+	docker run -it --name neuro $(image-name):$(version) /bin/bash

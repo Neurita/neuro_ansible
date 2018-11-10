@@ -1,0 +1,34 @@
+---
+
+- name: python_env | Create directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ group }}'
+  with_items:
+    - '{{ python_envs_dir }}'
+
+- name: python_env | Create python environment
+  command: "{{ sys_python }} -m venv {{ python_env_dir }}"
+
+- name: python_env | Copy requirements file
+  copy:
+    src: requirements.txt
+    dest: "{{ tmp_install_dir }}/requirements.txt"
+
+- name: python_env | Update base modules
+  pip:
+    name: "{{ item }}"
+    state: latest
+    virtualenv: "{{ python_env_dir }}"
+  with_items:
+    - pip
+    - setuptools
+    - wheel
+    - pipenv
+
+- name: python_env | Install requirements
+  pip:
+    requirements: "{{ tmp_install_dir }}/requirements.txt"
+    virtualenv: "{{ python_env_dir }}"

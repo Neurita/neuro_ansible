@@ -33,7 +33,7 @@
   ],
   "post-processors": [
     {
-      "type": "docker-import",
+      "type": "docker-tag",
       "repository": "neurita/{{user `container_name`}}",
       "tag": "0.1"
     }
