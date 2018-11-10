@@ -1,3 +1,4 @@
 ---
 
-python_env_dir: '{{ home_dir }}/envs/pypes'
+# python_envs_dir: '{{ home_dir }}/envs'
+# python_env_dir: '{{ python_envs_dir }}/neuro_pypes'

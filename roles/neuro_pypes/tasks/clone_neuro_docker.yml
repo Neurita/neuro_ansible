@@ -1,0 +1,22 @@
+---
+
+- name: neuro_docker | Set variables
+  set_fact:
+    git_url: "https://github.com/Neurita/neuro_docker.git"
+    git_dir: "{{ ansible_env.HOME }}/projects/neuro_docker"
+    git_tag: "master"
+
+- name: neuro_docker | Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ git_dir }}"
+
+- name: neuro_docker | Clone repository
+  git:
+    repo: "{{ git_url }}"
+    dest: "{{ git_dir }}"
+    version: "{{ git_tag }}"
+    recursive: no
+    accept_hostkey: yes

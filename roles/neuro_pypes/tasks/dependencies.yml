@@ -1,0 +1,10 @@
+---
+
+# - include_tasks: clone_pypes.yml
+#   tags: clone_pypes
+
+- include_tasks: clone_stdbrains.yml
+  tags: std_brains
+
+# - include_tasks: clone_neuro_docker.yml
+#   tags: neuro_docker

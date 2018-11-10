@@ -9,5 +9,5 @@
     - { role: python, tags: python }
     - { role: java, become: yes, become_method: sudo, tags: common }
     - { role: libraries, tags: libs }
-    - { role: nipy, tags: nipy }
+    # - { role: nipy, tags: nipy }
     - { role: neuro_pypes, tags: pypes }

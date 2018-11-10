@@ -1,0 +1,22 @@
+---
+
+- set_fact:
+    pyenv_bin: "{{ ansible_env.HOME }}/.pyenv/bin"
+
+- name: python_env | Create python environment
+  shell: |
+    {{ pyenv_bin }}/pyenv virtualenv {{ python_version }} neuro
+
+- name: python_env | Fetch the path to the virtualenv
+  shell: "{{ pyenv_bin }}/pyenv prefix neuro"
+  register: python_env_dir
+
+- name: python_env | Update base modules
+  pip:
+    name:
+    - pip
+    - setuptools
+    - wheel
+    - pipenv
+    state: latest
+    virtualenv: "{{ python_env_dir.stdout }}"

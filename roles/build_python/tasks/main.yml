@@ -1,0 +1,10 @@
+---
+
+- include_tasks: roles/python/tasks/build_dependencies.yml
+  tags: [build_python, python]
+
+- include_tasks: build_dependencies.yml
+  tags: [build_python, python]
+
+- include_tasks: compile_python_36.yml
+  tags: [build_python, python]

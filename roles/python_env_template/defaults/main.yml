@@ -1,0 +1,11 @@
+---
+
+python_env: neuro
+
+python_envs_dir: '/home/{{ user }}/envs'
+
+python_env_dir: '{{ python_envs_dir }}/{{ python_env }}'
+
+sys_python: python3
+env_python: '{{ python_env_dir }}/bin/python'
+env_pip: '{{ python_env_dir }}/bin/pip'

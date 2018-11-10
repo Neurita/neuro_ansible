@@ -1,58 +1,15 @@
 ---
 
-- name: common | Create directory {{ python_env_dir }}
-  file:
-    path: '{{ item }}'
-    state: directory
-    owner: '{{ user }}'
-    group: '{{ group }}'
-  loop:
-    - '{{ python_env_dir }}'
-  become: yes
-  become_method: sudo
+- include_tasks: dependencies.yml
 
-- import_tasks: clone.yml
-  tags: clone_pypes
+- include_tasks: python_env.yml
 
-- name: Copy Pipfile
+- name: Copy requirements file
   copy:
-    src: Pipfile
-    dest: "{{ python_env_dir }}/Pipfile"
-
-- name: Create .envrc file
-  blockinfile:
-    path: "{{ python_env_dir }}/.envrc"
-    mode: 0644
-    owner: '{{ user }}'
-    group: '{{ group }}'
-    create: yes
-    block: |
-      export PIPENV_VENV_IN_PROJECT=./.venv/
-
-- name: Enable the .envrc file
-  command: >
-    direnv allow .
-  args:
-    chdir: "{{ python_env_dir }}"
+    src: requirements.txt
+    dest: "{{ tmp_install_dir }}/requirements.txt"
 
 - name: Install requirements
-  command: >
-    pipenv install --dev
-  args:
-    chdir: "{{ python_env_dir }}"
-  environment:
-    LC_ALL: C.UTF-8
-    LANG: C.UTF-8
-
-- name: Checking where the environment has been created
-  command: >
-    pipenv --venv
-  args:
-    chdir: "{{ python_env_dir }}"
-  environment:
-    LC_ALL: C.UTF-8
-    LANG: C.UTF-8
-  register: pipenv_env
-
-- debug:
-    var: pipenv_env
+  pip:
+    requirements: "{{ tmp_install_dir }}/requirements.txt"
+    virtualenv: "{{ python_env_dir.stdout }}"
