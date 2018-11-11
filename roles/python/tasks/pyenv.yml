@@ -11,6 +11,11 @@
   args:
     chdir: '{{ home_dir }}'
 
+- name: remote pyenv-installer script
+  file:
+    path: '{{ home_dir }}/pyenv-installer'
+    state: absent
+
 - set_fact:
     pyenv_bin: '{{ ansible_env.HOME }}/.pyenv/bin'
 
