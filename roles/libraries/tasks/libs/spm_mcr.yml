@@ -64,5 +64,10 @@
     create: yes
   tags: rc
 
+- name: '{{ lib_name }} | Delete package'
+  file:
+    path: "{{ pkg_path }}"
+    state: absent
+
 # export SPM_ARCH=glnx64
 # addlibpath ${MCR_DIR}/runtime/$SPM_ARCH
