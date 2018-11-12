@@ -62,23 +62,31 @@
     chdir: "{{ build_dir }}"
   when: overwrite_if_exists or lib_exists.stat.exists == False
 
-- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 1/2'
-  lineinfile:
-    dest: "{{ target_bashrc_file }}"
-    regexp: '^export ANTSPATH=.*'
-    line: 'export ANTSPATH=${SOFT}/{{ lib_name }}/build/bin'
-    follow: yes
-    create: yes
-  tags: rc
+# - name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 1/2'
+#   lineinfile:
+#     dest: "{{ target_bashrc_file }}"
+#     regexp: '^export ANTSPATH=.*'
+#     line: 'export ANTSPATH=${SOFT}/{{ lib_name }}/build/bin'
+#     follow: yes
+#     create: yes
+#   tags: rc
+#
+# - name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 2/2'
+#   lineinfile:
+#     dest: "{{ target_bashrc_file }}"
+#     regexp: '^addpath \${ANTSPATH}$'
+#     line: 'addpath ${ANTSPATH}'
+#     follow: yes
+#     create: yes
+#   tags: rc
 
-- name: '{{ lib_name }} | Add to {{ target_bashrc_file }} 2/2'
-  lineinfile:
-    dest: "{{ target_bashrc_file }}"
-    regexp: '^addpath \${ANTSPATH}$'
-    line: 'addpath ${ANTSPATH}'
-    follow: yes
-    create: yes
-  tags: rc
+- name: '{{ lib_name }} | Install'
+  command: "make install"
+  args:
+    chdir: "{{ build_dir }}/ANTS-build"
+  become: yes
+  become_method: sudo
+  when: overwrite_if_exists or lib_exists.stat.exists == False
 
 - name: '{{ lib_name }} | Install'
   command: "make install"

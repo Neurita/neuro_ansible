@@ -64,8 +64,11 @@
 
 - name: '{{ lib_name }} | Remove {{ build_dir }} directory'
   file:
-    path: "{{ build_dir }}"
+    path: "{{ item }}"
     state: absent
+  with_items:
+    - '{{ build_dir }}'
+    - '{{ ants_build_dir }}'
   become: yes
   become_method: sudo
   when: cleanup_sources
