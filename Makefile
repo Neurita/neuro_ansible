@@ -1,5 +1,5 @@
 image-name = "neurita/neuro_docker"
-version = 0.1
+version = 0.2
 
 
 install:
