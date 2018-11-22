@@ -2,8 +2,8 @@
 
 - set_fact:
     lib_name: 'matlab_runtime'
-    pkg_url: "http://ssd.mathworks.com/supportfiles/downloads/R2018a/deployment_files/R2018a/installers/glnxa64/MCR_R2018a_glnxa64_installer.zip"
-    lib_version: "v94"
+    pkg_url: "http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/glnxa64/MCR_R2018b_glnxa64_installer.zip"
+    lib_version: "v95"
 
 - set_fact:
     unarchive_dir: "{{ soft_dir }}/{{ lib_name }}/matlab_installer"

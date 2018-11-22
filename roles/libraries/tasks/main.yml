@@ -70,6 +70,9 @@
 - import_tasks: libs/apt.yml
   tags: [cmake, dcm2niix]
 
+- import_tasks: libs/spm_mcr.yml
+  tags: spm_mcr
+
 - import_tasks: libs/fsl.yml
   tags: fsl
 
@@ -78,15 +81,6 @@
 
 - import_tasks: libs/camino.yml
   tags: camino
-
-- import_tasks: libs/spm_mcr.yml
-  tags: spm_mcr
-
-#- import_tasks: libs/cmake.yml
-#  tags: cmake
-
-#- import_tasks: libs/dcm2niix.yml
-#  tags: dcm2niix
 
 - block:
   # - import_tasks: libs/vtk.yml
@@ -98,9 +92,6 @@
   - import_tasks: libs/petpvc.yml
     tags: petpvc
 
-  # - import_tasks: libs/simpleitk.yml
-  #   tags: simpleitk
-
   - name: '{{ lib_name }} | Remove {{ ants_build_dir }} directory'
     file:
       path: "{{ ants_build_dir }}"
@@ -110,6 +101,16 @@
     when: cleanup_sources
     tags: cleanup
   tags: itk
+
+
+# - import_tasks: libs/simpleitk.yml
+#   tags: simpleitk
+
+#- import_tasks: libs/cmake.yml
+#  tags: cmake
+
+#- import_tasks: libs/dcm2niix.yml
+#  tags: dcm2niix
 
 # - import_tasks: libs/boost.yml
 #   tags: boost
