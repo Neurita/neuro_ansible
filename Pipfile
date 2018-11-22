@@ -1,13 +1,10 @@
 [[source]]
-
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 ansible = ">=2.5,<=2.7"
 
-
 [dev-packages]
+bumpversion = "*"

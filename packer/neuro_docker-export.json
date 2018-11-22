@@ -35,7 +35,7 @@
     {
       "type": "docker-tag",
       "repository": "neurita/{{user `container_name`}}",
-      "tag": "0.1"
+      "tag": "0.2"
     },
     {
       "type": "compress",

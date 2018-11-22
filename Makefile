@@ -1,7 +1,6 @@
 image-name = "neurita/neuro_docker"
-version = 0.1
-# version-string := $(shell grep '__version__ = '  $(project-name)/version.py)
-# version := $(subst __version__ = ,,$(version-string))
+version = 0.2
+
 
 install:
 	pipenv install --skip-lock
@@ -24,3 +23,13 @@ docker-image:
 docker-run:
 	pipenv run packer build packer/neuro_docker-run.json
 	docker run -it --name neuro $(image-name):$(version) /bin/bash
+
+tag:
+	@echo "Create git tag v$(version), if not present"
+	git rev-parse --verify v$(version) || (git tag v$(version) && git push --tags)
+
+minor:
+	pipenv run bumpversion minor
+
+major:
+	pipenv run bumpversion major
